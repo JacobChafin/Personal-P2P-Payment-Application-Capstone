@@ -46,6 +46,16 @@ public class JdbcUserDao implements UserDao {
     }
 
     @Override
+    // TODO make this authenticated for user specific account
+    public User findBalanceByUsername(String username) {
+        String sql = "SELECT balance " +
+                "FROM account " +
+                "JOIN tenmo_user ON account.user_id = tenmo_user.user_id" +
+                "WHERE tenmo_user.user_id = (Select user_id from tenmo_user where username = ?)";
+        SqlRowSet rowSet = jdbcTemplate.queryForRowSet(sql, username);
+        return mapRowToUser(rowSet);
+    }
+    @Override
     public User findByUsername(String username) throws UsernameNotFoundException {
         String sql = "SELECT user_id, username, password_hash FROM tenmo_user WHERE username ILIKE ?;";
         SqlRowSet rowSet = jdbcTemplate.queryForRowSet(sql, username);
