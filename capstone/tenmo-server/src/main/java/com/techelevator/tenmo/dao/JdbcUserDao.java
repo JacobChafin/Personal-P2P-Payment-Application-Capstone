@@ -22,6 +22,7 @@ public class JdbcUserDao implements UserDao {
         this.jdbcTemplate = jdbcTemplate;
     }
 
+
     @Override
     public int findIdByUsername(String username) {
         String sql = "SELECT user_id FROM tenmo_user WHERE username ILIKE ?;";
@@ -33,12 +34,13 @@ public class JdbcUserDao implements UserDao {
         }
     }
 
+    //TODO Authentication User can find a user from a chosen list (README #4.1)
     @Override
     public List<User> findAll() {
         List<User> users = new ArrayList<>();
         String sql = "SELECT user_id, username, password_hash FROM tenmo_user;";
         SqlRowSet results = jdbcTemplate.queryForRowSet(sql);
-        while(results.next()) {
+        while (results.next()) {
             User user = mapRowToUser(results);
             users.add(user);
         }
@@ -55,11 +57,12 @@ public class JdbcUserDao implements UserDao {
         SqlRowSet rowSet = jdbcTemplate.queryForRowSet(sql, username);
         return mapRowToUser(rowSet);
     }
+
     @Override
     public User findByUsername(String username) throws UsernameNotFoundException {
         String sql = "SELECT user_id, username, password_hash FROM tenmo_user WHERE username ILIKE ?;";
         SqlRowSet rowSet = jdbcTemplate.queryForRowSet(sql, username);
-        if (rowSet.next()){
+        if (rowSet.next()) {
             return mapRowToUser(rowSet);
         }
         throw new UsernameNotFoundException("User " + username + " was not found.");
@@ -98,4 +101,17 @@ public class JdbcUserDao implements UserDao {
         user.setAuthorities("USER");
         return user;
     }
+    // TODO transfer is initially approved
+    private User transfer(String username, int transferAmount) {
+        // TODO User Id instead of Username?
+        // TODO can't send money to self  if username = principal throw exception
+        // TODO if money to transfer > balance, or transfer <= 0, deny transfer
+        // TODO Transfer needs to display sender and receiver User ID's and the amount transferred
+        return null;
+    }
+    // TODO Be able to retrieve all transfer information based on transfer ID
+    //TODO Increase and Decrease balances accordingly
+
 }
+
+
