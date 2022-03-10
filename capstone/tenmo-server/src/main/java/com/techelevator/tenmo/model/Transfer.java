@@ -14,6 +14,9 @@ public class Transfer {
     private String userTo;
     private String transferStatus;
 
+    public Transfer() {
+    }
+
     public Transfer(BigDecimal transferAmount, int transferStatusId, int transferTypeId,
                     int accountTo, int accountFrom, int transferId,
                     String transferType, String userFrom, String userTo,

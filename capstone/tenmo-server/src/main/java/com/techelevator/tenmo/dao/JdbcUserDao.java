@@ -1,5 +1,7 @@
 package com.techelevator.tenmo.dao;
 
+import com.techelevator.tenmo.model.Account;
+import com.techelevator.tenmo.model.Transfer;
 import com.techelevator.tenmo.model.User;
 import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -128,28 +130,29 @@ public class JdbcUserDao implements UserDao {
 
         return balance;
     }
+
     @Override
-        public BigDecimal depositToBalance(BigDecimal transferAmount, String username) {
+    public BigDecimal depositToBalance(BigDecimal transferAmount, String username) {
         BigDecimal balance = BigDecimal.valueOf(0);
         int idForDeposit = findIdByUsername(username);
         BigDecimal updatedBalance = getBalance(idForDeposit).add(transferAmount);
         // Display new balance
-            String sql = "UPDATE accounts SET balance = ? WHERE user_id = ?";
+        String sql = "UPDATE accounts SET balance = ? WHERE user_id = ?";
 
-            return balance;
-        }
+        return balance;
+    }
 
-        @Override
-        public BigDecimal withdrawalFromBalance(BigDecimal transferAmount, String username) {
+    @Override
+    public BigDecimal withdrawalFromBalance(BigDecimal transferAmount, String username) {
         BigDecimal balance = BigDecimal.valueOf(0);
         int idForWithdrawal = findIdByUsername(username);
         // TODO Username.getBalance needs to be initialized
         BigDecimal updatedBalance = getBalance(idForWithdrawal).subtract(transferAmount);
         // Display new Balance
-            String sql = "Update accounts Set Balance = ? Where user_id =?";
+        String sql = "Update accounts Set Balance = ? Where user_id =?";
 
-            return balance;
-        }
+        return balance;
+    }
 
     // TODO transfer is initially approved
     private String transfer(int sendingFromUserId, int sendingToUserId, BigDecimal transferAmount) {
@@ -168,26 +171,63 @@ public class JdbcUserDao implements UserDao {
 
         }
         return "Insufficient Funds";
-        }
     }
 
 
-        // TODO User Id instead of Username?
+    // TODO User Id instead of Username?
 
 
-        // TODO Transfer needs to display sender and receiver User ID's and the amount transferred
+    // TODO Transfer needs to display sender and receiver User ID's and the amount transferred
 
 
-        //TODO sent this to Client for display
-        // transfer method calls list of potential users and userID's from database
-        // needs to be displayed in terminal
-        // needs mapping
+    //TODO sent this to Client for display
+    // transfer method calls list of potential users and userID's from database
+    // needs to be displayed in terminal
+    // needs mapping
 
-        // TODO Be able to retrieve all transfer information based on transfer ID
-
-
+    // TODO Be able to retrieve all transfer information based on transfer ID
 
 
+    private Transfer mapRowToTransfer(SqlRowSet stupidDumbSqlRowSetResults) {
+
+
+        Transfer transfer = new Transfer();
+        transfer.setAccountFrom(stupidDumbSqlRowSetResults.getInt("account_from"));
+        transfer.setAccountTo(stupidDumbSqlRowSetResults.getInt("account_to"));
+        transfer.setTransferId(stupidDumbSqlRowSetResults.getInt("transfer_id"));
+        transfer.setTransferStatusId(stupidDumbSqlRowSetResults.getInt("transfer_status_id"));
+        transfer.setTransferTypeId(stupidDumbSqlRowSetResults.getInt("transfer_type_id"));
+        transfer.setTransferAmount(stupidDumbSqlRowSetResults.getInt("amount"));
+
+        transfer.setTransferType(stupidDumbSqlRowSetResults.getString("transfer_type_desc"));
+        transfer.setTransferStatus(stupidDumbSqlRowSetResults.getString("transfer_status_desc"));
+//        transfer.setUserFrom(stupidDumbSqlRowSetResults.getString("user_from"));
+//        transfer.setUserTo(stupidDumbSqlRowSetResults.getString("user_to"));
+        return transfer;
+    }
+
+
+
+    ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+//                                    ACCOUNTABILLABUDDY SECTION
+    //I can merge Kieta
+    ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+    private Account mapRowToAccount(SqlRowSet stupidDumbRowStuff){
+        Account account = new Account();
+        account.setAccountId(stupidDumbRowStuff.getInt("account_id"));
+        account.setBalance(stupidDumbRowStuff.getBigDecimal("balance"));
+        account.setUserId(stupidDumbRowStuff.getInt("user_id"));
+
+        return account;
+
+
+    }
+
+}
 
 
 
