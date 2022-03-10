@@ -81,7 +81,7 @@ public class JdbcUserDao implements UserDao {
             return false;
         }
 
-        // create account
+        // create account.
         sql = "INSERT INTO account (user_id, balance) values(?, ?)";
         try {
             jdbcTemplate.update(sql, newUserId, STARTING_BALANCE);
