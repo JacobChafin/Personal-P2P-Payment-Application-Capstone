@@ -34,7 +34,6 @@ public class JdbcUserDao implements UserDao {
         }
     }
 
-    //TODO Authentication User can find a user from a chosen list (README #4.1)
     @Override
     public List<User> findAll() {
         List<User> users = new ArrayList<>();
@@ -48,7 +47,6 @@ public class JdbcUserDao implements UserDao {
     }
 
     @Override
-    // TODO make this authenticated for user specific account
     public User findBalanceByUsername(String username) {
         String sql = "SELECT balance " +
                 "FROM account " +
@@ -101,17 +99,95 @@ public class JdbcUserDao implements UserDao {
         user.setAuthorities("USER");
         return user;
     }
-    // TODO transfer is initially approved
-    private User transfer(String username, int transferAmount) {
-        // TODO User Id instead of Username?
-        // TODO can't send money to self  if username = principal throw exception
-        // TODO if money to transfer > balance, or transfer <= 0, deny transfer
-        // TODO Transfer needs to display sender and receiver User ID's and the amount transferred
-        return null;
+    //////////////////////////////////////////////////////////////////////////////////////////////////////////
+    //////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+//                                    TRANSFER DEPOSIT WITHDRAWAL BALANCE
+
+    //////////////////////////////////////////////////////////////////////////////////////////////////////////
+    //////////////////////////////////////////////////////////////////////////////////////////////////////////
+    @Override
+    public List<User> findAllUsernamesAndUserIDs() {
+        List<User> users = new ArrayList<>();
+        String sql = "SELECT user_id, username, FROM tenmo_user;";
+        SqlRowSet results = jdbcTemplate.queryForRowSet(sql);
+        while (results.next()) {
+            User user = mapRowToUser(results);
+            users.add(user);
+        }
+        return users;
     }
-    // TODO Be able to retrieve all transfer information based on transfer ID
-    //TODO Increase and Decrease balances accordingly
-    //testtest
-}
+
+    @Override
+    public BigDecimal getBalance(int userId) {
+        String balanceSql = "SELECT balance FROM accounts WHERE user_id = ?";
+        SqlRowSet results = null;
+        BigDecimal balance = null;
+        results = jdbcTemplate.queryForRowSet(balanceSql, userId);
+        balance = results.getBigDecimal("balance");
+
+        return balance;
+    }
+    @Override
+        public BigDecimal depositToBalance(BigDecimal transferAmount, String username) {
+        BigDecimal balance = BigDecimal.valueOf(0);
+        int idForDeposit = findIdByUsername(username);
+        BigDecimal updatedBalance = getBalance(idForDeposit).add(transferAmount);
+        // Display new balance
+            String sql = "UPDATE accounts SET balance = ? WHERE user_id = ?";
+
+            return balance;
+        }
+
+        @Override
+        public BigDecimal withdrawalFromBalance(BigDecimal transferAmount, String username) {
+        BigDecimal balance = BigDecimal.valueOf(0);
+        int idForWithdrawal = findIdByUsername(username);
+        // TODO Username.getBalance needs to be initialized
+        BigDecimal updatedBalance = getBalance(idForWithdrawal).subtract(transferAmount);
+        // Display new Balance
+            String sql = "Update accounts Set Balance = ? Where user_id =?";
+
+            return balance;
+        }
+
+    // TODO transfer is initially approved
+    private String transfer(int sendingFromUserId, int sendingToUserId, BigDecimal transferAmount) {
+        if (sendingFromUserId == sendingToUserId) {
+
+            return "Invalid User.  Select Valid User ID";
+
+        }
+        if ((transferAmount.compareTo(getBalance(sendingFromUserId))) >= 0) ;
+        {
+            String sql = "";
+            //TODO update SQL and do transfers
+            //TODO Display BOTH userId's and the transfer amount
+            // Accounts of sender - transferAmount
+            // Accounts of receiver + transferAmount
+
+        }
+        return "Insufficient Funds";
+        }
+    }
+
+
+        // TODO User Id instead of Username?
+
+
+        // TODO Transfer needs to display sender and receiver User ID's and the amount transferred
+
+
+        //TODO sent this to Client for display
+        // transfer method calls list of potential users and userID's from database
+        // needs to be displayed in terminal
+        // needs mapping
+
+        // TODO Be able to retrieve all transfer information based on transfer ID
+
+
+
+
+
 
 
