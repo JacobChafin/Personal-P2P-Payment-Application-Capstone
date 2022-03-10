@@ -217,7 +217,7 @@ public class JdbcUserDao implements UserDao {
     //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
     private Account mapRowToAccount(SqlRowSet stupidDumbRowStuff){
-        Account account = new Account;
+        Account account = new Account();
         account.setAccountId(stupidDumbRowStuff.getInt("account_id"));
         account.setBalance(stupidDumbRowStuff.getBigDecimal("balance"));
         account.setUserId(stupidDumbRowStuff.getInt("user_id"));
