@@ -15,8 +15,9 @@ import java.math.BigDecimal;
 
 public class AccountController {
 
-    public AccountController (Account account) {
-    }
+//    public AccountController (Account account) {
+//
+//    }
 
     @RequestMapping(path = "balance/id", method = RequestMethod.GET)
     public BigDecimal getBalance(@PathVariable int userid) {
