@@ -90,7 +90,7 @@ public class ConsoleService {
 
     public void printBalance(){
         UserService userService = new UserService();
-        BigDecimal balance = userService.getBalance();
+        Integer balance = userService.getBalance();
         System.out.println("--------------------------------------------");
         System.out.println("Your balance is " + balance);
         System.out.println("--------------------------------------------");
