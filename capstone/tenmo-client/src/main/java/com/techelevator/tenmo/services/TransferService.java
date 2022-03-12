@@ -29,7 +29,7 @@ public class TransferService {
     public Transfer[] getTransfersFromUserId(AuthenticatedUser authenticatedUser) {
         Transfer[] transfers = null;
         try {
-            transfers = restTemplate.exchange(API_BASE_URL + "transfers/" + authenticatedUser.getUser().getId(),
+            transfers = restTemplate.exchange(API_BASE_URL + "account/transfers/" + authenticatedUser.getUser().getId(),
                     HttpMethod.GET,
                     makeAuthEntity(authenticatedUser),
                     Transfer[].class
