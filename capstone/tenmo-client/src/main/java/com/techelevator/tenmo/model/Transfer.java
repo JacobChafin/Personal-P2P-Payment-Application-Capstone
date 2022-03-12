@@ -3,17 +3,21 @@ package com.techelevator.tenmo.model;
 import java.math.BigDecimal;
 
 public class Transfer {
-//    private BigDecimal transferAmount;
+    private BigDecimal amount;
     private int transferStatusId;
     private int transferTypeId;
     private int accountTo;
     private int accountFrom;
     private int transferId;
-    private String transferType;
-    private String userFrom;
-    private String userTo;
-    private String transferStatus;
-    private BigDecimal amount;
+    private int transferType;
+    private int userFrom;
+    private int userTo;
+    private int transferStatus;
+//    private BigDecimal amount;
+
+    public Transfer(){
+
+    }
 
 //    public Transfer(BigDecimal transferAmount, String transferType, String userFrom,
 //                    String userTo, String transferStatus) {
@@ -24,31 +28,30 @@ public class Transfer {
 //        this.transferStatus = transferStatus;
 //    }
 
-    public Transfer(int transferId, int transferTypeId, int transferStatusId, int accountFrom, int accountTo, BigDecimal amount) {
+//    public Transfer(int transferId, int transferTypeId, int transferStatusId, int accountFrom, int accountTo, BigDecimal amount) {
+//        this.transferId = transferId;
+//        this.transferTypeId = transferTypeId;
+//        this.transferStatusId = transferStatusId;
+//        this.accountFrom = accountFrom;
+//        this.accountTo = accountTo;
+//        this.amount = amount;
+//    }
+
+
+    public Transfer(int transferId, int transferTypeId, int transferStatusId, int accountFrom, int accountTo, BigDecimal amount,
+                   int transferType, int userFrom, int userTo, int transferStatus) {
+
         this.transferId = transferId;
         this.transferTypeId = transferTypeId;
         this.transferStatusId = transferStatusId;
         this.accountFrom = accountFrom;
         this.accountTo = accountTo;
         this.amount = amount;
+        this.transferType = transferType;
+        this.userFrom = userFrom;
+        this.userTo = userTo;
+        this.transferStatus = transferStatus;
     }
-
-//    public Transfer(BigDecimal transferAmount, int transferStatusId, int transferTypeId, int accountTo, int accountFrom,
-//                    int transferId, String transferType,
-//                    String userFrom, String userTo, String transferStatus) {
-//
-//
-//        this.transferAmount = transferAmount;
-//        this.transferStatusId = transferStatusId;
-//        this.transferTypeId = transferTypeId;
-//        this.accountTo = accountTo;
-//        this.accountFrom = accountFrom;
-//        this.transferId = transferId;
-//        this.transferType = transferType;
-//        this.userFrom = userFrom;
-//        this.userTo = userTo;
-//        this.transferStatus = transferStatus;
-//    }
 
     public BigDecimal getAmount() {
         return amount;
@@ -57,12 +60,6 @@ public class Transfer {
     public void setAmount(BigDecimal amount) {
         this.amount = amount;
     }
-//    public BigDecimal getTransferAmount() {
-//        return transferAmount;}
-//
-//    public void setTransferAmount(int bigDecimal) {
-//        transferAmount = transferAmount;
-//    }
 
     public int getTransferStatusId() {
         return transferStatusId;
@@ -104,35 +101,35 @@ public class Transfer {
         this.transferId = transferId;
     }
 
-    public String getTransferType() {
+    public int getTransferType() {
         return transferType;
     }
 
-    public void setTransferType(String transferType) {
+    public void setTransferType(int transferType) {
         this.transferType = transferType;
     }
 
-    public String getUserFrom() {
+    public int getUserFrom() {
         return userFrom;
     }
 
-    public void setUserFrom(String userFrom) {
+    public void setUserFrom(int userFrom) {
         this.userFrom = userFrom;
     }
 
-    public String getUserTo() {
+    public int getUserTo() {
         return userTo;
     }
 
-    public void setUserTo(String userTo) {
+    public void setUserTo(int userTo) {
         this.userTo = userTo;
     }
 
-    public String getTransferStatus() {
+    public int getTransferStatus() {
         return transferStatus;
     }
 
-    public void setTransferStatus(String transferStatus) {
+    public void setTransferStatus(int transferStatus) {
         this.transferStatus = transferStatus;
     }
 }
