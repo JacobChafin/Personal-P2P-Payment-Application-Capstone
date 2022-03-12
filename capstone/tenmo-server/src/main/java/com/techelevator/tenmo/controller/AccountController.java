@@ -18,9 +18,8 @@ import java.util.List;
 @PreAuthorize("isAuthenticated()")
 
 public class AccountController {
-
-private JdbcAccountDao accountDao;
 private UserDao userDao;
+private JdbcAccountDao accountDao;
 
     public AccountController(JdbcAccountDao account, JdbcUserDao user) {
         this.accountDao = account;
