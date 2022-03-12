@@ -30,7 +30,7 @@ public class TransferController {
 
 
 // authentication
-    @RequestMapping(path = "transfers/{id}", method = RequestMethod.GET)
+    @RequestMapping(path = "transfers/{userid}", method = RequestMethod.GET)
     public Transfer getTransfer(@PathVariable int userid) {
 //        Transfer transfer = transfer.getTransferId(userid);
         return transfer;

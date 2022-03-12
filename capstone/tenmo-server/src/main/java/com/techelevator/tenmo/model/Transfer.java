@@ -3,12 +3,14 @@ package com.techelevator.tenmo.model;
 import java.math.BigDecimal;
 
 public class Transfer {
-    private BigDecimal transferAmount;
-    private int transferStatusId;
-    private int transferTypeId;
-    private int accountTo;
-    private int accountFrom;
     private int transferId;
+    private int transferTypeId;
+    private int transferStatusId;
+    private int accountFrom;
+    private int accountTo;
+    private BigDecimal amount;
+
+
     private String transferType;
     private String userFrom;
     private String userTo;
@@ -17,11 +19,11 @@ public class Transfer {
     public Transfer() {
     }
 
-    public Transfer(BigDecimal transferAmount, int transferStatusId, int transferTypeId,
+    public Transfer(BigDecimal amount, int transferStatusId, int transferTypeId,
                     int accountTo, int accountFrom, int transferId,
                     String transferType, String userFrom, String userTo,
                     String transferStatus) {
-        this.transferAmount = transferAmount;
+        this.amount = amount;
         this.transferStatusId = transferStatusId;
         this.transferTypeId = transferTypeId;
         this.accountTo = accountTo;
@@ -33,6 +35,15 @@ public class Transfer {
         this.transferStatus = transferStatus;
     }
 
+    public Transfer(int transferId, int transferTypeId, int transferStatusId, int accountFrom, int accountTo, BigDecimal amount){
+        this.transferId = transferId;
+        this.transferTypeId = transferTypeId;
+        this.transferStatusId = transferStatusId;
+        this.accountFrom = accountFrom;
+        this.accountTo = accountTo;
+        this.amount = amount;
+    }
+
     public Transfer(String transferType, String userFrom, String userTo, String transferStatus) {
         this.transferType = transferType;
         this.userFrom = userFrom;
@@ -40,11 +51,11 @@ public class Transfer {
         this.transferStatus = transferStatus;
     }
 
-    public BigDecimal getTransferAmount() {
-    return transferAmount;}
+    public BigDecimal getAmount() {
+    return amount;}
 
     public void setTransferAmount(int bigDecimal) {
-        transferAmount = transferAmount;
+        amount = amount;
     }
 
     public int getTransferStatusId() {
