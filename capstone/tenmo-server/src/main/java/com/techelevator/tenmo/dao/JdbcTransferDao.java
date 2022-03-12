@@ -13,7 +13,7 @@ public class JdbcTransferDao implements TransferDao {
     private JdbcTemplate jdbcTemplate;
 
 
-    @Override
+//    @Override
     public Transfer getTransfersById(int transferId) {
         Transfer transfer = new Transfer();
         String sql = "SELECT * " +
@@ -28,7 +28,7 @@ public class JdbcTransferDao implements TransferDao {
         return transfer;
     }
 
-    @Override
+//    @Override
     public List<Transfer> getListOfAllTransfers(int userId) {
         List<Transfer> listOfTransfers = new ArrayList<>();
 
