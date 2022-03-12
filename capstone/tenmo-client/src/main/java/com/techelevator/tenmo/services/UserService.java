@@ -19,23 +19,24 @@ public class UserService {
     private AuthenticatedUser currentUser;
     private String authToken = null;
 
+
     public void setAuthToken(String authToken) {
         this.authToken = authToken;
     }
 
     public BigDecimal getBalance() {
-        BigDecimal balance = null;
-        authToken = currentUser.getToken();
-        
+        BigDecimal balance = new BigDecimal(0);
         try {
-            balance = restTemplate.exchange(API_BASE_URL + "user/" + currentUser.getUser().getId() + "/balance", HttpMethod.GET,
-            makeAuthEntity(), BigDecimal.class).getBody();
+            balance = restTemplate.exchange(API_BASE_URL + "/balance/" + currentUser.getUser().getId(),
+                    HttpMethod.GET, makeAuthEntity(), BigDecimal.class).getBody();
         }
         catch (RestClientResponseException | ResourceAccessException e){
             BasicLogger.log(e.getMessage());
         }
         return balance;
     }
+
+
 
 
 
