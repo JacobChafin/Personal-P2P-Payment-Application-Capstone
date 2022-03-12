@@ -29,7 +29,7 @@ public class UserService {
         BigDecimal balance = null;
 
         try {
-            balance = restTemplate.exchange(API_BASE_URL + "/balance/" + userid,
+            balance = restTemplate.exchange(API_BASE_URL + "balance/" + userid,
                     HttpMethod.GET, makeAuthEntity(), BigDecimal.class).getBody();
         }
         catch (RestClientResponseException | ResourceAccessException e){

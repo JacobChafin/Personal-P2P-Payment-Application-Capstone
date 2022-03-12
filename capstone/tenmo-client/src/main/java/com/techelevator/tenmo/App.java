@@ -9,6 +9,7 @@ import com.techelevator.tenmo.services.UserService;
 import java.math.BigDecimal;
 
 public class App {
+    private int balance;
 
     private static final String API_BASE_URL = "http://localhost:8080/";
 
@@ -87,7 +88,13 @@ public class App {
         }
     }
 
-	private void viewCurrentBalance() {
+    private void requestBucks() {
+    }
+    private void sendBucks() {
+
+    }
+
+    private void viewCurrentBalance() {
         UserService userService = new UserService();
         BigDecimal balance = userService.getBalance(currentUser.getUser().getId());
         System.out.println("--------------------------------------------");
@@ -107,12 +114,16 @@ public class App {
 		
 	}
 
-	private void sendBucks() {
+	public int sendBucks(int amountToSend) {
+         balance = balance - amountToSend;
+        return balance;
 		// TODO Auto-generated method stub
 		
 	}
 
-	private void requestBucks() {
+	public int requestBucks(int amountToRequest) {
+        balance = balance + amountToRequest;
+        return balance;
 		// TODO Auto-generated method stub
 		
 	}
