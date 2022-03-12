@@ -5,12 +5,17 @@ import com.techelevator.tenmo.model.Transfer;
 import org.springframework.jdbc.support.rowset.SqlRowSet;
 import org.springframework.stereotype.Component;
 
+import javax.sql.DataSource;
 import java.util.ArrayList;
 import java.util.List;
 
 @Component
 public class JdbcTransferDao implements TransferDao {
     private JdbcTemplate jdbcTemplate;
+
+    public JdbcTransferDao(DataSource dataSource) {
+        this.jdbcTemplate = new JdbcTemplate(dataSource);
+    }
 
 
     //    @Override
@@ -32,14 +37,14 @@ public class JdbcTransferDao implements TransferDao {
     public List<Transfer> getListOfAllTransfers(int userId) {
         List<Transfer> listOfTransfers = new ArrayList<>();
 
-        String sql = "SELECT transfer_id, transfer_type_id, transfer_status_id, account_from, account_to, amount" +
-                "FROM transfer" +
-                "JOIN account ON account.account_id = transfer.account_from" +
+        String sql = "SELECT transfer_id, transfer_type_id, transfer_status_id, account_from, account_to, amount " +
+                "FROM transfer " +
+                "JOIN account ON account.account_id = transfer.account_from " +
                 "WHERE account.user_id = ?";
         SqlRowSet fullTransferList = jdbcTemplate.queryForRowSet(sql, userId);
         while (fullTransferList.next()) {
-            Transfer transfers = mapRowToTransfer(fullTransferList);
-            listOfTransfers.add(transfers);
+//            Transfer transfers = mapRowToTransfer(fullTransferList);
+            listOfTransfers.add(mapRowToTransfer(fullTransferList));
         }
 <<<<<<< HEAD
     return listOfTransfers;
@@ -59,7 +64,7 @@ public class JdbcTransferDao implements TransferDao {
         transfer.setTransferStatusId(stupidDumbSqlRowSetResults.getInt("transfer_status_id"));
         transfer.setAccountFrom(stupidDumbSqlRowSetResults.getInt("account_from"));
         transfer.setAccountTo(stupidDumbSqlRowSetResults.getInt("account_to"));
-        transfer.setTransferAmount(stupidDumbSqlRowSetResults.getInt("amount"));
+        transfer.setAmount(stupidDumbSqlRowSetResults.getBigDecimal("amount"));
 
 
 

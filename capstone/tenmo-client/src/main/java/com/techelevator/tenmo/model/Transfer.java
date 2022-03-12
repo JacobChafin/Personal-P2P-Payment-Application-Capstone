@@ -3,7 +3,7 @@ package com.techelevator.tenmo.model;
 import java.math.BigDecimal;
 
 public class Transfer {
-    private BigDecimal transferAmount;
+//    private BigDecimal transferAmount;
     private int transferStatusId;
     private int transferTypeId;
     private int accountTo;
@@ -13,39 +13,56 @@ public class Transfer {
     private String userFrom;
     private String userTo;
     private String transferStatus;
+    private BigDecimal amount;
 
-    public Transfer(BigDecimal transferAmount, String transferType, String userFrom,
-                    String userTo, String transferStatus) {
-        this.transferAmount = transferAmount;
-        this.transferType = transferType;
-        this.userFrom = userFrom;
-        this.userTo = userTo;
-        this.transferStatus = transferStatus;
-    }
+//    public Transfer(BigDecimal transferAmount, String transferType, String userFrom,
+//                    String userTo, String transferStatus) {
+//        this.transferAmount = transferAmount;
+//        this.transferType = transferType;
+//        this.userFrom = userFrom;
+//        this.userTo = userTo;
+//        this.transferStatus = transferStatus;
+//    }
 
-    public Transfer(BigDecimal transferAmount, int transferStatusId, int transferTypeId, int accountTo, int accountFrom,
-                    int transferId, String transferType,
-                    String userFrom, String userTo, String transferStatus) {
-
-
-        this.transferAmount = transferAmount;
-        this.transferStatusId = transferStatusId;
-        this.transferTypeId = transferTypeId;
-        this.accountTo = accountTo;
-        this.accountFrom = accountFrom;
+    public Transfer(int transferId, int transferTypeId, int transferStatusId, int accountFrom, int accountTo, BigDecimal amount) {
         this.transferId = transferId;
-        this.transferType = transferType;
-        this.userFrom = userFrom;
-        this.userTo = userTo;
-        this.transferStatus = transferStatus;
+        this.transferTypeId = transferTypeId;
+        this.transferStatusId = transferStatusId;
+        this.accountFrom = accountFrom;
+        this.accountTo = accountTo;
+        this.amount = amount;
     }
 
-    public BigDecimal getTransferAmount() {
-        return transferAmount;}
+//    public Transfer(BigDecimal transferAmount, int transferStatusId, int transferTypeId, int accountTo, int accountFrom,
+//                    int transferId, String transferType,
+//                    String userFrom, String userTo, String transferStatus) {
+//
+//
+//        this.transferAmount = transferAmount;
+//        this.transferStatusId = transferStatusId;
+//        this.transferTypeId = transferTypeId;
+//        this.accountTo = accountTo;
+//        this.accountFrom = accountFrom;
+//        this.transferId = transferId;
+//        this.transferType = transferType;
+//        this.userFrom = userFrom;
+//        this.userTo = userTo;
+//        this.transferStatus = transferStatus;
+//    }
 
-    public void setTransferAmount(int bigDecimal) {
-        transferAmount = transferAmount;
+    public BigDecimal getAmount() {
+        return amount;
     }
+
+    public void setAmount(BigDecimal amount) {
+        this.amount = amount;
+    }
+//    public BigDecimal getTransferAmount() {
+//        return transferAmount;}
+//
+//    public void setTransferAmount(int bigDecimal) {
+//        transferAmount = transferAmount;
+//    }
 
     public int getTransferStatusId() {
         return transferStatusId;
