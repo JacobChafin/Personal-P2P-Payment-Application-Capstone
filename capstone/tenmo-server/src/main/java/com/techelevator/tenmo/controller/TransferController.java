@@ -36,10 +36,10 @@ public class TransferController {
         return transfer;
     }
 
-    @RequestMapping(path = "account/transfers/id", method = RequestMethod.GET)
+    @RequestMapping(path = "account/transfers/{userid}", method = RequestMethod.GET)
     public List<Transfer> listOfTransfers (@PathVariable int userid) {
-        List<User> response = userDao.findAll();
-        return null;
+        List<Transfer> response = transferDao.getListOfAllTransfers(userid);
+        return response;
     }
 
 

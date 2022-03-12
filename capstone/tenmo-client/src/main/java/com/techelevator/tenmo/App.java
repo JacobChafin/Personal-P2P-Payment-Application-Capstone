@@ -113,7 +113,16 @@ public class App {
 //        TransferService transferService = new TransferService();
         Transfer[] transfers = transferService.getTransfersFromUserId(currentUser);
         System.out.println("--------------------------------------------");
-        System.out.println("Your transfers are " + Arrays.toString(transfers));
+        System.out.println("Your transfers are ");
+        if (transfers == null){
+            System.out.print("nothing lol");
+        }
+        else {
+            for (Transfer transfer : transfers) {
+                System.out.println(transfer.getAccountFrom());
+            }
+        }
+        System.out.println();
         System.out.println("--------------------------------------------");
 
 	}
@@ -122,6 +131,13 @@ public class App {
         Transfer[] transfers = transferService.viewPendingTransfers(currentUser);
         System.out.println("--------------------------------------------");
         System.out.println("Your transfers are " + Arrays.toString(transfers));
+        if (transfers == null){
+            System.out.print("nothing lol");
+        }
+        else {
+            for (Transfer transfer : transfers) {
+                System.out.println(transfer.getAccountFrom());
+            }
         System.out.println("--------------------------------------------");
 	}
 
