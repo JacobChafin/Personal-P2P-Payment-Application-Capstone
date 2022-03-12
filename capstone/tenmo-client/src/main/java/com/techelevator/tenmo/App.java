@@ -116,11 +116,13 @@ public class App {
         System.out.println("Your transfers are ");
         if (transfers == null) {
             System.out.print("nothing lol");
-        } else {
-            for (Transfer transfer : transfers) {
-                System.out.println(transfer.getAccountFrom());
-            }
         }
+        System.out.println("poop");
+        System.out.println(transfers.length);
+        for (Transfer transfer : transfers) {
+            System.out.println(transfer.getAccountFrom());
+        }
+
         System.out.println();
         System.out.println("--------------------------------------------");
 
@@ -139,26 +141,27 @@ public class App {
             System.out.println("--------------------------------------------");
         }
     }
-        public void sendBucks () {
+
+    public void sendBucks() {
 //        balance = balance - amountToSend;
 //        return balance;
 //		// TODO Auto-generated method stub
 //
-        }
+    }
 
-        public void requestBucks () {
+    public void requestBucks() {
 //        balance = balance + amountToRequest;
 //        return balance;
 //		// TODO Auto-generated method stub
 //
-        }
+    }
 
-        private void listUsers () {
-            User[] users = userService.listUsers(currentUser);
-            for (User user : users) {
-                System.out.println(user.getUsername());
-            }
-
+    private void listUsers() {
+        User[] users = userService.listUsers(currentUser);
+        for (User user : users) {
+            System.out.println(user.getUsername());
         }
 
     }
+
+}
