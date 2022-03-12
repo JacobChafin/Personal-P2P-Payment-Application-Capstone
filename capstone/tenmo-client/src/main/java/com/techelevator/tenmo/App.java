@@ -38,6 +38,7 @@ public class App {
             mainMenu();
         }
     }
+
     private void loginMenu() {
         int menuSelection = -1;
         while (menuSelection != 0 && currentUser == null) {
@@ -87,7 +88,7 @@ public class App {
                 sendBucks();
             } else if (menuSelection == 5) {
                 requestBucks();
-            } else if (menuSelection == 6){
+            } else if (menuSelection == 6) {
                 listUsers();
             } else if (menuSelection == 0) {
                 continue;
@@ -98,26 +99,24 @@ public class App {
         }
     }
 
-	private void viewCurrentBalance() {
+    private void viewCurrentBalance() {
 //        UserService userService = new UserService();
         BigDecimal balance = userService.getBalance(currentUser);
         System.out.println("--------------------------------------------");
-        System.out.println("Your balance is " + balance);
+        System.out.println("Your balance is $" + balance);
         System.out.println("--------------------------------------------");
 
 
+    }
 
-	}
-
-	private void viewTransferHistory() {
+    private void viewTransferHistory() {
 //        TransferService transferService = new TransferService();
         Transfer[] transfers = transferService.getTransfersFromUserId(currentUser);
         System.out.println("--------------------------------------------");
         System.out.println("Your transfers are ");
-        if (transfers == null){
+        if (transfers == null) {
             System.out.print("nothing lol");
-        }
-        else {
+        } else {
             for (Transfer transfer : transfers) {
                 System.out.println(transfer.getAccountFrom());
             }
@@ -125,42 +124,41 @@ public class App {
         System.out.println();
         System.out.println("--------------------------------------------");
 
-	}
+    }
 
-	private void viewPendingRequests() {
+    private void viewPendingRequests() {
         Transfer[] transfers = transferService.viewPendingTransfers(currentUser);
         System.out.println("--------------------------------------------");
         System.out.println("Your transfers are " + Arrays.toString(transfers));
-        if (transfers == null){
+        if (transfers == null) {
             System.out.print("nothing lol");
-        }
-        else {
+        } else {
             for (Transfer transfer : transfers) {
                 System.out.println(transfer.getAccountFrom());
             }
-        System.out.println("--------------------------------------------");
-	}
-
-	public void sendBucks() {
+            System.out.println("--------------------------------------------");
+        }
+    }
+        public void sendBucks () {
 //        balance = balance - amountToSend;
 //        return balance;
 //		// TODO Auto-generated method stub
 //
-	}
+        }
 
-	public void requestBucks() {
+        public void requestBucks () {
 //        balance = balance + amountToRequest;
 //        return balance;
 //		// TODO Auto-generated method stub
 //
-	}
+        }
 
-    private void listUsers(){
-        User[] users = userService.listUsers(currentUser);
-        for (User user : users){
-            System.out.println(user.getUsername());
+        private void listUsers () {
+            User[] users = userService.listUsers(currentUser);
+            for (User user : users) {
+                System.out.println(user.getUsername());
+            }
+
         }
 
     }
-
-}
