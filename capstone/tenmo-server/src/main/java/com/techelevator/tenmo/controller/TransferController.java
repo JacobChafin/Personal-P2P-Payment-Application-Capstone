@@ -1,6 +1,9 @@
 package com.techelevator.tenmo.controller;
 
 
+import com.techelevator.tenmo.dao.JdbcAccountDao;
+import com.techelevator.tenmo.dao.JdbcTransferDao;
+import com.techelevator.tenmo.dao.JdbcUserDao;
 import com.techelevator.tenmo.dao.UserDao;
 import com.techelevator.tenmo.model.Transfer;
 import com.techelevator.tenmo.model.User;
@@ -12,14 +15,25 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
+
+
 @RestController
 @PreAuthorize("isAuthenticated()")
 public class TransferController {
     private UserDao userDao;
     private Transfer transfer;
+    private JdbcTransferDao transferDao;
+
+    public TransferController(JdbcTransferDao transfer) {
+        this.transferDao = transfer;
+    }
 
 
-    @RequestMapping(path = "transfers/id", method = RequestMethod.GET)
+
+
+
+// authentication
+    @RequestMapping(path = "transfers/{id}", method = RequestMethod.GET)
     public Transfer getTransfer(@PathVariable int userid) {
 //        Transfer transfer = transfer.getTransferId(userid);
         return transfer;

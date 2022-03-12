@@ -10,6 +10,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Component;
 
+import javax.sql.DataSource;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
@@ -20,10 +21,10 @@ public class JdbcUserDao implements UserDao {
     private static final BigDecimal STARTING_BALANCE = new BigDecimal("1000.00");
     private JdbcTemplate jdbcTemplate;
 
-    public JdbcUserDao(JdbcTemplate jdbcTemplate) {
-        this.jdbcTemplate = jdbcTemplate;
-    }
 
+    public JdbcUserDao(DataSource dataSource) {
+        this.jdbcTemplate = new JdbcTemplate(dataSource);
+    }
 
     @Override
     public int findIdByUsername(String username) {
@@ -188,23 +189,23 @@ public class JdbcUserDao implements UserDao {
     // TODO Be able to retrieve all transfer information based on transfer ID
 
 
-    private Transfer mapRowToTransfer(SqlRowSet stupidDumbSqlRowSetResults) {
-
-
-        Transfer transfer = new Transfer();
-        transfer.setAccountFrom(stupidDumbSqlRowSetResults.getInt("account_from"));
-        transfer.setAccountTo(stupidDumbSqlRowSetResults.getInt("account_to"));
-        transfer.setTransferId(stupidDumbSqlRowSetResults.getInt("transfer_id"));
-        transfer.setTransferStatusId(stupidDumbSqlRowSetResults.getInt("transfer_status_id"));
-        transfer.setTransferTypeId(stupidDumbSqlRowSetResults.getInt("transfer_type_id"));
-        transfer.setTransferAmount(stupidDumbSqlRowSetResults.getInt("amount"));
-
-        transfer.setTransferType(stupidDumbSqlRowSetResults.getString("transfer_type_desc"));
-        transfer.setTransferStatus(stupidDumbSqlRowSetResults.getString("transfer_status_desc"));
-//        transfer.setUserFrom(stupidDumbSqlRowSetResults.getString("user_from"));
-//        transfer.setUserTo(stupidDumbSqlRowSetResults.getString("user_to"));
-        return transfer;
-    }
+//    private Transfer mapRowToTransfer(SqlRowSet stupidDumbSqlRowSetResults) {
+//
+//
+//        Transfer transfer = new Transfer();
+//        transfer.setAccountFrom(stupidDumbSqlRowSetResults.getInt("account_from"));
+//        transfer.setAccountTo(stupidDumbSqlRowSetResults.getInt("account_to"));
+//        transfer.setTransferId(stupidDumbSqlRowSetResults.getInt("transfer_id"));
+//        transfer.setTransferStatusId(stupidDumbSqlRowSetResults.getInt("transfer_status_id"));
+//        transfer.setTransferTypeId(stupidDumbSqlRowSetResults.getInt("transfer_type_id"));
+//        transfer.setTransferAmount(stupidDumbSqlRowSetResults.getInt("amount"));
+//
+//        transfer.setTransferType(stupidDumbSqlRowSetResults.getString("transfer_type_desc"));
+//        transfer.setTransferStatus(stupidDumbSqlRowSetResults.getString("transfer_status_desc"));
+////        transfer.setUserFrom(stupidDumbSqlRowSetResults.getString("user_from"));
+////        transfer.setUserTo(stupidDumbSqlRowSetResults.getString("user_to"));
+//        return transfer;
+//    }
 
 
 

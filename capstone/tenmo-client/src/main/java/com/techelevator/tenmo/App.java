@@ -1,9 +1,11 @@
 package com.techelevator.tenmo;
 
 import com.techelevator.tenmo.model.AuthenticatedUser;
+import com.techelevator.tenmo.model.Transfer;
 import com.techelevator.tenmo.model.UserCredentials;
 import com.techelevator.tenmo.services.AuthenticationService;
 import com.techelevator.tenmo.services.ConsoleService;
+import com.techelevator.tenmo.services.TransferService;
 import com.techelevator.tenmo.services.UserService;
 
 import java.math.BigDecimal;
@@ -15,12 +17,15 @@ public class App {
 
     private final ConsoleService consoleService = new ConsoleService();
     private final AuthenticationService authenticationService = new AuthenticationService(API_BASE_URL);
-
     private AuthenticatedUser currentUser;
 
     public static void main(String[] args) {
         App app = new App();
         app.run();
+    }
+
+    public AuthenticatedUser getCurrentUser() {
+        return currentUser;
     }
 
     private void run() {
@@ -96,17 +101,22 @@ public class App {
 
     private void viewCurrentBalance() {
         UserService userService = new UserService();
-        BigDecimal balance = userService.getBalance(currentUser.getUser().getId());
+        BigDecimal balance = userService.getBalance(currentUser);
         System.out.println("--------------------------------------------");
         System.out.println("Your balance is " + balance);
         System.out.println("--------------------------------------------");
 
 
+
 	}
 
 	private void viewTransferHistory() {
-		// TODO Auto-generated method stub
-		
+        TransferService transferService = new TransferService();
+        Transfer[] transfers = transferService.getTransfersFromUserId(currentUser);
+        System.out.println("--------------------------------------------");
+        System.out.println("Your transfers are " + transfers);
+        System.out.println("--------------------------------------------");
+
 	}
 
 	private void viewPendingRequests() {
