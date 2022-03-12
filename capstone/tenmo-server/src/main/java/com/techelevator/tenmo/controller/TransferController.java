@@ -26,9 +26,6 @@ public class TransferController {
     }
 
 
-
-
-
 // authentication
     @RequestMapping(path = "transfers/{userid}", method = RequestMethod.GET)
     public Transfer getTransfer(@PathVariable int userid) {

@@ -29,6 +29,8 @@ private JdbcAccountDao accountDao;
 
     @RequestMapping(path = "balance/{userid}", method = RequestMethod.GET)
     public BigDecimal getBalance(@Valid @PathVariable int userid) {
+
+
         BigDecimal balance = accountDao.getBalance(userid);
 
         return balance;

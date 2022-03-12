@@ -41,13 +41,11 @@ public class JdbcTransferDao implements TransferDao {
             Transfer transfers = mapRowToTransfer(fullTransferList);
             listOfTransfers.add(transfers);
         }
-<<<<<<< HEAD
+
     return listOfTransfers;
 
-=======
-        return listOfTransfers;
         // TODO Map ROW Set for transfer is in USER
->>>>>>> 3083aafc4d75a8c0d810b73235c5060953625e00
+
     }
 
     private Transfer mapRowToTransfer(SqlRowSet stupidDumbSqlRowSetResults) {

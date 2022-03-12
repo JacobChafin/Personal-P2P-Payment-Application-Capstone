@@ -4,11 +4,13 @@ import com.techelevator.tenmo.model.Account;
 import com.techelevator.tenmo.model.Transfer;
 import com.techelevator.tenmo.model.User;
 import org.springframework.dao.DataAccessException;
+import org.springframework.http.HttpStatus;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.support.rowset.SqlRowSet;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Component;
+import org.springframework.web.bind.annotation.ResponseStatus;
 
 import javax.sql.DataSource;
 import java.math.BigDecimal;
@@ -154,8 +156,9 @@ public class JdbcUserDao implements UserDao {
 
         return balance;
     }
+    //TODO @ResponseStatus for ACCEPTED in transfer Method
 
-    // TODO transfer is initially approved
+    @ResponseStatus(value = HttpStatus.ACCEPTED)
     private String transfer(int sendingFromUserId, int sendingToUserId, BigDecimal transferAmount) {
         if (sendingFromUserId == sendingToUserId) {
 
