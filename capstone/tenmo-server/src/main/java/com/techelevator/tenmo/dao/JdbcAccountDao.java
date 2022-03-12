@@ -17,6 +17,7 @@ public JdbcAccountDao(DataSource dataSource) {
     @Override
     public BigDecimal getBalance(int userid) {
 //        Integer balance;
+
         BigDecimal balance = null;
         String sql = "SELECT balance FROM account WHERE user_id = ?";
         balance = jdbcTemplate.queryForObject(sql, BigDecimal.class, userid);
