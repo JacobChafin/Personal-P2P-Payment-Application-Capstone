@@ -26,4 +26,33 @@ public JdbcAccountDao(DataSource dataSource) {
 //        results = jdbcTemplate.queryForRowSet(sql, userid);
         return balance;
     }
+//    @Override
+//    public BigDecimal depositToBalance(BigDecimal transferAmount, String username) {
+//        BigDecimal balance = BigDecimal.valueOf(0);
+//        int idForDeposit = findIdByUsername(username);
+//        BigDecimal updatedBalance = getBalance(idForDeposit).add(transferAmount);
+//        // Display new balance
+//        String sql = "UPDATE accounts SET balance = ? WHERE user_id = ?";
+//
+//        return balance;
+
+//    @Override
+//    public BigDecimal withdrawalFromBalance(BigDecimal transferAmount, String username) {
+//        BigDecimal balance = BigDecimal.valueOf(0);
+//        int idForWithdrawal = findIdByUsername(username);
+//        // TODO Username.getBalance needs to be initialized
+//        BigDecimal updatedBalance = getBalance(idForWithdrawal).subtract(transferAmount);
+//        // Display new Balance
+//        String sql = "Update accounts Set Balance = ? Where user_id =?";
+//
+//        return balance;
+//    }
+
+//    }
+
+
 }
+
+
+
+
