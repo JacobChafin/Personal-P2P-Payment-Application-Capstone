@@ -18,8 +18,8 @@ public class TransferController {
     private UserDao userDao;
     private Transfer transfer;
 
-
-    @RequestMapping(path = "transfers/id", method = RequestMethod.GET)
+// authentication
+    @RequestMapping(path = "transfers/{id}", method = RequestMethod.GET)
     public Transfer getTransfer(@PathVariable int userid) {
 //        Transfer transfer = transfer.getTransferId(userid);
         return transfer;
