@@ -1,20 +1,20 @@
 package com.techelevator.tenmo.dao;
 
+import com.techelevator.tenmo.model.User;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.support.rowset.SqlRowSet;
 
 import java.math.BigDecimal;
 
 public class JdbcAccountDao implements AccountDao {
+    UserDao userDao;
+    private JdbcTemplate jdbcTemplate;
 
-       UserDao userDao;
-
-    public BigDecimal getBalance (int userid) {
+    public Integer getBalance (int userid) {
+        Integer balance;
         String sql = "SELECT balance FROM account WHERE user_id = ?";
-        SqlRowSet returns = null;
-        BigDecimal balance = null;
+        balance = jdbcTemplate.queryForObject(sql, Integer.class, userid);
 
-
-        return userDao.getBalance(userid);
+        return balance;
     }
 }

@@ -4,6 +4,7 @@ import com.techelevator.tenmo.model.AuthenticatedUser;
 import com.techelevator.tenmo.model.User;
 import com.techelevator.tenmo.model.UserCredentials;
 import com.techelevator.util.BasicLogger;
+import io.cucumber.java.sl.In;
 import org.springframework.http.*;
 import org.springframework.web.client.ResourceAccessException;
 import org.springframework.web.client.RestClientException;
@@ -24,11 +25,12 @@ public class UserService {
         this.authToken = authToken;
     }
 
-    public BigDecimal getBalance() {
-        BigDecimal balance = new BigDecimal(0);
+    public Integer getBalance() {
+        Integer balance = 2;
+
         try {
-            balance = restTemplate.exchange(API_BASE_URL + "/balance/" + currentUser.getUser().getId(),
-                    HttpMethod.GET, makeAuthEntity(), BigDecimal.class).getBody();
+            balance = restTemplate.exchange(API_BASE_URL + "/balance/" + 1001,
+                    HttpMethod.GET, makeAuthEntity(), Integer.class).getBody();
         }
         catch (RestClientResponseException | ResourceAccessException e){
             BasicLogger.log(e.getMessage());
