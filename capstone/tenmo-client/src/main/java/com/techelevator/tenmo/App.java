@@ -13,6 +13,7 @@ import java.math.BigDecimal;
 import java.util.Arrays;
 
 public class App {
+    private int balance;
 
     private static final String API_BASE_URL = "http://localhost:8080/";
     private UserService userService = new UserService();
@@ -124,12 +125,16 @@ public class App {
         System.out.println("--------------------------------------------");
 	}
 
-	private void sendBucks() {
+	public int sendBucks(int amountToSend) {
+         balance = balance - amountToSend;
+        return balance;
 		// TODO Auto-generated method stub
 		
 	}
 
-	private void requestBucks() {
+	public int requestBucks(int amountToRequest) {
+        balance = balance + amountToRequest;
+        return balance;
 		// TODO Auto-generated method stub
 		
 	}
