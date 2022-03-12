@@ -5,7 +5,7 @@ import com.techelevator.tenmo.model.Account;
 import java.math.BigDecimal;
 
 public interface AccountDao {
-    Integer getBalance(int userid);
+    BigDecimal getBalance(int userid);
 
 
 

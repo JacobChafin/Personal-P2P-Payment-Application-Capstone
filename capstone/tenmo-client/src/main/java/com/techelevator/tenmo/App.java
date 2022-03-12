@@ -1,11 +1,12 @@
 package com.techelevator.tenmo;
 
 import com.techelevator.tenmo.model.AuthenticatedUser;
-import com.techelevator.tenmo.model.User;
 import com.techelevator.tenmo.model.UserCredentials;
 import com.techelevator.tenmo.services.AuthenticationService;
 import com.techelevator.tenmo.services.ConsoleService;
 import com.techelevator.tenmo.services.UserService;
+
+import java.math.BigDecimal;
 
 public class App {
 
@@ -87,7 +88,13 @@ public class App {
     }
 
 	private void viewCurrentBalance() {
-        consoleService.printBalance();
+        UserService userService = new UserService();
+        BigDecimal balance = userService.getBalance(currentUser.getUser().getId());
+        System.out.println("--------------------------------------------");
+        System.out.println("Your balance is " + balance);
+        System.out.println("--------------------------------------------");
+
+
 	}
 
 	private void viewTransferHistory() {
