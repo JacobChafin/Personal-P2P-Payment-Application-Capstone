@@ -8,12 +8,12 @@ import org.springframework.stereotype.Component;
 import java.util.ArrayList;
 import java.util.List;
 
-
+@Component
 public class JdbcTransferDao implements TransferDao {
     private JdbcTemplate jdbcTemplate;
 
 
-    @Override
+    //    @Override
     public Transfer getTransfersById(int transferId) {
         Transfer transfer = new Transfer();
         String sql = "SELECT * " +
@@ -28,21 +28,26 @@ public class JdbcTransferDao implements TransferDao {
         return transfer;
     }
 
-    @Override
+    //    @Override
     public List<Transfer> getListOfAllTransfers(int userId) {
         List<Transfer> listOfTransfers = new ArrayList<>();
 
         String sql = "SELECT *" +
                 "FROM transfer" +
                 "JOIN account ON account.account_id = transfer.account_from" +
-                "WHERE account.account_id = ?";
+                "WHERE account.user_id = ?";
         SqlRowSet fullTransferList = jdbcTemplate.queryForRowSet(sql, userId);
         while (fullTransferList.next()) {
-    Transfer transfers = mapRowToTransfer(fullTransferList);
-    listOfTransfers.add(transfers);
+            Transfer transfers = mapRowToTransfer(fullTransferList);
+            listOfTransfers.add(transfers);
         }
+<<<<<<< HEAD
     return listOfTransfers;
 
+=======
+        return listOfTransfers;
+        // TODO Map ROW Set for transfer is in USER
+>>>>>>> 3083aafc4d75a8c0d810b73235c5060953625e00
     }
 
     private Transfer mapRowToTransfer(SqlRowSet stupidDumbSqlRowSetResults) {

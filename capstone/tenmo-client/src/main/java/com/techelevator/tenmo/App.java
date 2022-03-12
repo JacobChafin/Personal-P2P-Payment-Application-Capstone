@@ -2,6 +2,7 @@ package com.techelevator.tenmo;
 
 import com.techelevator.tenmo.model.AuthenticatedUser;
 import com.techelevator.tenmo.model.Transfer;
+import com.techelevator.tenmo.model.User;
 import com.techelevator.tenmo.model.UserCredentials;
 import com.techelevator.tenmo.services.AuthenticationService;
 import com.techelevator.tenmo.services.ConsoleService;
@@ -9,14 +10,17 @@ import com.techelevator.tenmo.services.TransferService;
 import com.techelevator.tenmo.services.UserService;
 
 import java.math.BigDecimal;
+import java.util.Arrays;
 
 public class App {
+    private int balance;
 
     private static final String API_BASE_URL = "http://localhost:8080/";
-
+    private UserService userService = new UserService();
     private final ConsoleService consoleService = new ConsoleService();
     private final AuthenticationService authenticationService = new AuthenticationService(API_BASE_URL);
     private AuthenticatedUser currentUser;
+    TransferService transferService = new TransferService();
 
     public static void main(String[] args) {
         App app = new App();
@@ -83,6 +87,8 @@ public class App {
                 sendBucks();
             } else if (menuSelection == 5) {
                 requestBucks();
+            } else if (menuSelection == 6){
+                listUsers();
             } else if (menuSelection == 0) {
                 continue;
             } else {
@@ -93,7 +99,7 @@ public class App {
     }
 
 	private void viewCurrentBalance() {
-        UserService userService = new UserService();
+//        UserService userService = new UserService();
         BigDecimal balance = userService.getBalance(currentUser);
         System.out.println("--------------------------------------------");
         System.out.println("Your balance is " + balance);
@@ -104,27 +110,57 @@ public class App {
 	}
 
 	private void viewTransferHistory() {
-        TransferService transferService = new TransferService();
+//        TransferService transferService = new TransferService();
         Transfer[] transfers = transferService.getTransfersFromUserId(currentUser);
         System.out.println("--------------------------------------------");
-        System.out.println("Your transfers are " + transfers);
+        System.out.println("Your transfers are ");
+        if (transfers == null){
+            System.out.print("nothing lol");
+        }
+        else {
+            for (Transfer transfer : transfers) {
+                System.out.println(transfer.getAccountFrom());
+            }
+        }
+        System.out.println();
         System.out.println("--------------------------------------------");
 
 	}
 
 	private void viewPendingRequests() {
-		// TODO Auto-generated method stub
-		
+        Transfer[] transfers = transferService.viewPendingTransfers(currentUser);
+        System.out.println("--------------------------------------------");
+        System.out.println("Your transfers are " + Arrays.toString(transfers));
+        if (transfers == null){
+            System.out.print("nothing lol");
+        }
+        else {
+            for (Transfer transfer : transfers) {
+                System.out.println(transfer.getAccountFrom());
+            }
+        System.out.println("--------------------------------------------");
 	}
 
-	private void sendBucks() {
-		// TODO Auto-generated method stub
-		
+	public void sendBucks() {
+//        balance = balance - amountToSend;
+//        return balance;
+//		// TODO Auto-generated method stub
+//
 	}
 
-	private void requestBucks() {
-		// TODO Auto-generated method stub
-		
+	public void requestBucks() {
+//        balance = balance + amountToRequest;
+//        return balance;
+//		// TODO Auto-generated method stub
+//
 	}
+
+    private void listUsers(){
+        User[] users = userService.listUsers(currentUser);
+        for (User user : users){
+            System.out.println(user.getUsername());
+        }
+
+    }
 
 }

@@ -1,10 +1,7 @@
 package com.techelevator.tenmo.controller;
 
 
-import com.techelevator.tenmo.dao.JdbcAccountDao;
-import com.techelevator.tenmo.dao.JdbcTransferDao;
-import com.techelevator.tenmo.dao.JdbcUserDao;
-import com.techelevator.tenmo.dao.UserDao;
+import com.techelevator.tenmo.dao.*;
 import com.techelevator.tenmo.model.Transfer;
 import com.techelevator.tenmo.model.User;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -22,9 +19,9 @@ import java.util.List;
 public class TransferController {
     private UserDao userDao;
     private Transfer transfer;
-    private JdbcTransferDao transferDao;
+    private TransferDao transferDao;
 
-    public TransferController(JdbcTransferDao transfer) {
+    public TransferController(TransferDao transfer) {
         this.transferDao = transfer;
     }
 
@@ -39,10 +36,10 @@ public class TransferController {
         return transfer;
     }
 
-    @RequestMapping(path = "account/transfers/id", method = RequestMethod.GET)
+    @RequestMapping(path = "account/transfers/{userid}", method = RequestMethod.GET)
     public List<Transfer> listOfTransfers (@PathVariable int userid) {
-        List<User> response = userDao.findAll();
-        return null;
+        List<Transfer> response = transferDao.getListOfAllTransfers(userid);
+        return response;
     }
 
 
