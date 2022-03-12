@@ -89,7 +89,7 @@ public class App {
 
 	private void viewCurrentBalance() {
         UserService userService = new UserService();
-        BigDecimal balance = userService.getBalance(currentUser.getUser().getId());
+        BigDecimal balance = userService.getBalance(currentUser);
         System.out.println("--------------------------------------------");
         System.out.println("Your balance is " + balance);
         System.out.println("--------------------------------------------");
