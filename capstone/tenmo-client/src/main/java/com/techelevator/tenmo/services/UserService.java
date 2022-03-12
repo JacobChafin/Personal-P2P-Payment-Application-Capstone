@@ -25,18 +25,20 @@ public class UserService {
         this.authToken = authToken;
     }
 
-    public Integer getBalance() {
-        Integer balance = 2;
+    public BigDecimal getBalance(Long userid) {
+        BigDecimal balance = null;
 
         try {
-            balance = restTemplate.exchange(API_BASE_URL + "/balance/" + 1001,
-                    HttpMethod.GET, makeAuthEntity(), Integer.class).getBody();
+            balance = restTemplate.exchange(API_BASE_URL + "/balance/" + userid,
+                    HttpMethod.GET, makeAuthEntity(), BigDecimal.class).getBody();
         }
         catch (RestClientResponseException | ResourceAccessException e){
             BasicLogger.log(e.getMessage());
         }
         return balance;
     }
+
+//    public
 
 
 
@@ -45,7 +47,8 @@ public class UserService {
     private HttpEntity<Void> makeAuthEntity() {
         HttpHeaders headers = new HttpHeaders();
         headers.setBearerAuth(authToken);
-        return new HttpEntity<>(headers);
+        HttpEntity entity = new HttpEntity<>(headers);
+        return entity;
     }
 
 
