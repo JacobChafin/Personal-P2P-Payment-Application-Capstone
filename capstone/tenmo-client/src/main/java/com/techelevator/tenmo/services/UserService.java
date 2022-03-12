@@ -48,7 +48,7 @@ public class UserService {
     public User[] listUsers(AuthenticatedUser authenticatedUser) {
         User[] users = null;
         try {
-            ResponseEntity<User[]> response = restTemplate.exchange(API_BASE_URL + "user/",
+            ResponseEntity<User[]> response = restTemplate.exchange(API_BASE_URL + "users/",
                     HttpMethod.GET, makeAuthEntity(authenticatedUser), User[].class);
             users = response.getBody();
         } catch (RestClientResponseException | ResourceAccessException e) {
