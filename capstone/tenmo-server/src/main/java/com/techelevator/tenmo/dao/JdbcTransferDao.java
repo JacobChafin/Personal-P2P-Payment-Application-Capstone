@@ -22,7 +22,7 @@ public class JdbcTransferDao implements TransferDao {
 
         SqlRowSet transferList = jdbcTemplate.queryForRowSet(sql, transferId);
         if (transferList.next()) {
-//            transfer = mapRowToTransfer(transferList);
+            transfer = mapRowToTransfer(transferList);
 
         }
         return transfer;
@@ -41,8 +41,13 @@ public class JdbcTransferDao implements TransferDao {
             Transfer transfers = mapRowToTransfer(fullTransferList);
             listOfTransfers.add(transfers);
         }
+<<<<<<< HEAD
+    return listOfTransfers;
+
+=======
         return listOfTransfers;
         // TODO Map ROW Set for transfer is in USER
+>>>>>>> 3083aafc4d75a8c0d810b73235c5060953625e00
     }
 
     private Transfer mapRowToTransfer(SqlRowSet stupidDumbSqlRowSetResults) {
