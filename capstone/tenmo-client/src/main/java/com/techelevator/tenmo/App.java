@@ -125,18 +125,18 @@ public class App {
         System.out.println("--------------------------------------------");
 	}
 
-	public int sendBucks(int amountToSend) {
-         balance = balance - amountToSend;
-        return balance;
-		// TODO Auto-generated method stub
-		
+	public void sendBucks() {
+//        balance = balance - amountToSend;
+//        return balance;
+//		// TODO Auto-generated method stub
+//
 	}
 
-	public int requestBucks(int amountToRequest) {
-        balance = balance + amountToRequest;
-        return balance;
-		// TODO Auto-generated method stub
-		
+	public void requestBucks() {
+//        balance = balance + amountToRequest;
+//        return balance;
+//		// TODO Auto-generated method stub
+//
 	}
 
     private void listUsers(){

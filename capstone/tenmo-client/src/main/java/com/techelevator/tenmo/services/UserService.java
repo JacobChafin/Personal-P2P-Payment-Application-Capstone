@@ -30,13 +30,8 @@ public class UserService {
         BigDecimal balance = null;
 
         try {
-<<<<<<< HEAD
-            balance = restTemplate.exchange(API_BASE_URL + "balance/" + userid,
-                    HttpMethod.GET, makeAuthEntity(), BigDecimal.class).getBody();
-=======
             balance = restTemplate.exchange(API_BASE_URL + "/balance/" + authenticatedUser.getUser().getId(),
                     HttpMethod.GET, makeAuthEntity(authenticatedUser), BigDecimal.class).getBody();
->>>>>>> abbb15807385f597e1c05503d9c1bacd41a4d974
         }
         catch (RestClientResponseException | ResourceAccessException e){
             BasicLogger.log(e.getMessage());
