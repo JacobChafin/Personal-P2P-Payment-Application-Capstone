@@ -29,7 +29,7 @@ public class TransferService {
     public Transfer[] getTransfersFromUserId(AuthenticatedUser authenticatedUser) {
         Transfer[] transfers = null;
         try {
-            transfers = restTemplate.exchange(API_BASE_URL + "/transfers/user/" + authenticatedUser.getUser().getId(),
+            transfers = restTemplate.exchange(API_BASE_URL + "transfers/" + authenticatedUser.getUser().getId(),
                     HttpMethod.GET,
                     makeAuthEntity(authenticatedUser),
                     Transfer[].class
@@ -40,6 +40,19 @@ public class TransferService {
         return transfers;
     }
 
+    public Transfer[] viewPendingTransfers(AuthenticatedUser authenticatedUser) {
+        Transfer[] transfers = null;
+        try {
+            transfers = restTemplate.exchange(API_BASE_URL + "transfers/" + authenticatedUser.getUser().getId(),
+                    HttpMethod.GET,
+                    makeAuthEntity(authenticatedUser),
+                    Transfer[].class
+            ).getBody();
+        } catch(RestClientResponseException | ResourceAccessException e) {
+            BasicLogger.log(e.getMessage());
+        }
+        return transfers;
+    }
 
 
 
