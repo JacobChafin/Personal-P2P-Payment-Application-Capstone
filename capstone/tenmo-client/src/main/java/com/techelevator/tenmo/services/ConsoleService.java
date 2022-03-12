@@ -1,14 +1,17 @@
 package com.techelevator.tenmo.services;
 
 
+import com.techelevator.tenmo.App;
+import com.techelevator.tenmo.model.AuthenticatedUser;
 import com.techelevator.tenmo.model.UserCredentials;
 
 import java.math.BigDecimal;
 import java.util.Scanner;
 
 public class ConsoleService {
-
+    App app;
     private final Scanner scanner = new Scanner(System.in);
+    AuthenticatedUser authenticatedUser;
 
     public int promptForMenuSelection(String prompt) {
         int menuSelection;
@@ -90,7 +93,8 @@ public class ConsoleService {
 
 //    public void printBalance(){
 //        UserService userService = new UserService();
-//        BigDecimal balance = userService.getBalance();
+//        authenticatedUser = app.getCurrentUser();
+//        BigDecimal balance = userService.getBalance(authenticationUser);
 //        System.out.println("--------------------------------------------");
 //        System.out.println("Your balance is " + balance);
 //        System.out.println("--------------------------------------------");
