@@ -6,7 +6,9 @@ import com.techelevator.tenmo.dao.JdbcAccountDao;
 import com.techelevator.tenmo.dao.JdbcUserDao;
 import com.techelevator.tenmo.dao.UserDao;
 import com.techelevator.tenmo.model.Account;
+import com.techelevator.tenmo.model.Transfer;
 import com.techelevator.tenmo.model.User;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
@@ -51,6 +53,12 @@ private JdbcAccountDao accountDao;
     @RequestMapping(path = "accounts/users/{userid}", method = RequestMethod.GET)
     public User findUserByAccountId(@PathVariable int userid){
         return userDao.findUserByAccountId(userid);
+    }
+
+    @ResponseStatus(HttpStatus.CREATED)
+    @RequestMapping(path = "users/accounts/{userid}", method = RequestMethod.GET)
+    public Account findAccountByUserId (@PathVariable int userid){
+        return accountDao.findAccountByUserId(userid);
     }
 
 
