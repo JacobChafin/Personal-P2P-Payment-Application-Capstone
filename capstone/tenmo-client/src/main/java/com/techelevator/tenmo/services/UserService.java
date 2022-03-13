@@ -57,15 +57,16 @@ public class UserService {
     }
 
     public String getUsernameByAccountId(AuthenticatedUser authenticatedUser, int id){
-        String username = null;
+        User user = null;
         try {
-            username = restTemplate.exchange(API_BASE_URL + "accounts/users/" + id,
+            user = restTemplate.exchange(API_BASE_URL + "accounts/users/" + id,
                     HttpMethod.GET,
                     makeAuthEntity(authenticatedUser),
-                    String.class).getBody();
+                    User.class).getBody();
         } catch (RestClientResponseException | ResourceAccessException e) {
             BasicLogger.log(e.getMessage());
         }
+        String username = user.getUsername();
         return username;
     }
 

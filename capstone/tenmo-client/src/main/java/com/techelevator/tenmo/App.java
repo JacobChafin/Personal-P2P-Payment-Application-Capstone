@@ -118,8 +118,8 @@ public class App {
         System.out.println("--------------------------------------------");
         System.out.println("Transfers ");
         System.out.println("ID      FROM/TO       Amount");
-        boolean test = true;
-        while (test) {
+        boolean breakLoop = true;
+        while (breakLoop) {
             if (transfers == null) {
                 System.out.print("don't exist lol find friends");
                 break;
@@ -144,7 +144,7 @@ public class App {
                         + transfer.getAmount());
                 int choice = consoleService.promptForMenuSelection("Please enter transfer ID to view details (0 to cancel): ");
                 if (choice == 0){
-                    test = false;
+                    breakLoop = false;
                 }
                 else{
                     Transfer transferToDisplay = transferService.getTransferById(currentUser, choice);
@@ -155,13 +155,18 @@ public class App {
                     else {
                         System.out.println("------------");
                         System.out.println("ID: "+  transferToDisplay.getTransferId());
-                        System.out.println("From: "+  userService.getUsernameByAccountId(currentUser, transferToDisplay.getAccountFrom());
-                        System.out.println("Type: "+  transferToDisplay.getTransferType());
-                        System.out.println("Status: "+  transferToDisplay.getTransferId());
-                        System.out.println("Amount: "+  transferToDisplay.getTransferId());
+                        System.out.println("From: "+  userService.getUsernameByAccountId(currentUser, transferToDisplay.getAccountFrom()));
+                        System.out.println("Type: Send");
+//                                +  transferToDisplay.getTransferType());
+                        System.out.println("Status: Approved");
+//                                +  transferToDisplay.getTransferId());
+                        System.out.println("Amount: "+  transferToDisplay.getAmount());
+                        break;
+
+                        //TODO add type and status instead of hard coding what it is
                     }
                 }
-                test = false;
+                breakLoop = false;
             }
         }
 
@@ -218,7 +223,7 @@ public class App {
                 transfer.setAccountTo(accountTo);
                 transfer.setAmount(amountToSend);
                 boolean didItWork = transferService.sendTEbucks(currentUser, accountFrom, accountTo, transfer);
-                if (didItWork == false){
+                if (!didItWork){
                     System.out.println("Not enough money");
                 }
                 break;

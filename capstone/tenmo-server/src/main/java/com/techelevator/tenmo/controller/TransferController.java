@@ -32,7 +32,7 @@ public class TransferController {
     // authentication
     @RequestMapping(path = "transfer/{userid}", method = RequestMethod.GET)
     public Transfer getTransfer(@PathVariable int userid) {
-//        Transfer transfer = transfer.getTransferId(userid);
+        Transfer transfer = transferDao.getTransfersById(userid);
         return transfer;
     }
 

@@ -26,7 +26,7 @@ public class JdbcTransferDao implements TransferDao {
     public Transfer getTransfersById(int transferId) {
         Transfer transfer = new Transfer();
         String sql = "SELECT * " +
-                "FROM transfer" +
+                "FROM transfer " +
                 "WHERE transfer_id = ?";
 
         SqlRowSet transferList = jdbcTemplate.queryForRowSet(sql, transferId);
@@ -60,7 +60,7 @@ public class JdbcTransferDao implements TransferDao {
         if (userFrom == userTo) {
             return didItWork;
         }
-        if ((transfer.getAmount().compareTo(userDao.getBalance(userFrom))) >= 0) {
+        if ((transfer.getAmount().compareTo(userDao.getBalance(userFrom))) <= 0) {
 
 
             String sql = "BEGIN; " +

@@ -60,7 +60,7 @@ public class TransferService {
     public Transfer[] viewPendingTransfers(AuthenticatedUser authenticatedUser) {
         Transfer[] transfers = null;
         try {
-            transfers = restTemplate.exchange(API_BASE_URL + "transfers/" + authenticatedUser.getUser().getId(),
+            transfers = restTemplate.exchange(API_BASE_URL + "transfer/" + authenticatedUser.getUser().getId(),
                     HttpMethod.GET,
                     makeAuthEntity(authenticatedUser),
                     Transfer[].class
@@ -83,7 +83,7 @@ public class TransferService {
                             HttpMethod.POST,
                             entity,
                             Boolean.class)
-                    .getBody();
+                                .getBody();
             didItWork = true;
         } catch (RestClientResponseException | ResourceAccessException e) {
             BasicLogger.log(e.getMessage());
