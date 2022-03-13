@@ -185,18 +185,22 @@ public class JdbcUserDao implements UserDao {
 
             return "Invalid User.  Select Valid User ID";
 
-        }
-        if ((transferAmount.compareTo(getBalance(sendingFromUserId))) >= 0) ;
+        }if ((transferAmount.compareTo(getBalance(sendingFromUserId))) >= 0)
         {
-            String sql = "";
-            //TODO update SQL and do transfers
-            //TODO Display BOTH userId's and the transfer amount
+            String sql = "INSERT INTO transfer (transfer_type_id, transfer_status_id, account_from, account_to, amount)"
+                    + "VALUES 2,2,?,?,?";
+            jdbcTemplate.update(sql, sendingFromUserId, sendingToUserId, transferAmount);
+            return "Transfer Completed";}
+
+            return "Insufficient Funds";
+        }
             // Accounts of sender - transferAmount
             // Accounts of receiver + transferAmount
 
-        }
-        return "Insufficient Funds";
-    }
+
+
+
+
 
 
     // TODO User Id instead of Username?
