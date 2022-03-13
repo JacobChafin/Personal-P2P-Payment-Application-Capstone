@@ -2,6 +2,7 @@ package com.techelevator.tenmo.controller;
 
 
 import com.techelevator.tenmo.dao.*;
+import com.techelevator.tenmo.model.Account;
 import com.techelevator.tenmo.model.Transfer;
 import com.techelevator.tenmo.model.User;
 import org.springframework.http.HttpStatus;
@@ -20,10 +21,12 @@ public class TransferController {
     private UserDao userDao;
     private Transfer transfer;
     private TransferDao transferDao;
+    private AccountDao accountDao;
 
-    public TransferController(TransferDao transfer, UserDao user) {
+    public TransferController(TransferDao transfer, UserDao user, AccountDao account) {
         this.transferDao = transfer;
         this.userDao = user;
+        this.accountDao = account;
     }
 
 
@@ -40,9 +43,16 @@ public class TransferController {
         return response;
     }
 
+<<<<<<< HEAD
     @RequestMapping(path = "transfer/{sendingFromUserId}/{sendingToUserId}/{transferAmount}", method = RequestMethod.POST)
     public String transfer (@PathVariable Integer sendingFromUserId, Integer sendingToUserId, BigDecimal transferAmount) {
         String response = userDao.transfer(sendingFromUserId, sendingToUserId, transferAmount);
+=======
+    @RequestMapping(path = "transfer/{sendingFromUserId}/{sendingToUserId}/{balance}", method = RequestMethod.POST)
+    public String completeTransfer (@PathVariable int sendingFromUserId, @PathVariable int sendingToUserId,
+                                    @PathVariable BigDecimal transferAmount) {
+        String response = accountDao.completeTransfer(sendingFromUserId, sendingToUserId, transferAmount);
+>>>>>>> 46e655032fc67b8b43b9e8b2956102ace701925e
         return response;
     }
 
