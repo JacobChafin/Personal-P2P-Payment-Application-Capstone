@@ -121,6 +121,9 @@ public class App {
         System.out.println(transfers.length);
         for (Transfer transfer : transfers) {
             System.out.println(transfer.getAccountFrom());
+            int idFrom = transfer.getAccountFrom();
+            int idTo = transfer.getAccountTo();
+//            System.out.println(userService);
         }
 
         System.out.println();
@@ -158,10 +161,13 @@ public class App {
 
     private void listUsers() {
         User[] users = userService.listUsers(currentUser);
+        System.out.println("-------------------------------------------");
+        System.out.println("ID      :      Name");
+        System.out.println();
         for (User user : users) {
-            System.out.println(user.getUsername());
+            System.out.println(user.getId() + "     :     " + user.getUsername());
         }
-
+        System.out.println("-------------------------------------------");
     }
 
 }

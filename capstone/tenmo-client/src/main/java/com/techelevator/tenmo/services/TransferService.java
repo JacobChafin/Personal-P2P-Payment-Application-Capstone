@@ -20,6 +20,11 @@ public class TransferService {
     private AuthenticatedUser currentUser;
     private String authToken = null;
 
+    public TransferService(){
+    }
+//    public TransferService(AuthenticatedUser authenticatedUser){
+//        this.currentUser = authenticatedUser;
+//    }
 
     public void setAuthToken(String authToken) {
         this.authToken = authToken;

@@ -39,6 +39,11 @@ private JdbcAccountDao accountDao;
         return userDao.findAll();
     }
 
+    @RequestMapping(path = "users/{userid}", method = RequestMethod.GET)
+    public String getUserById(@PathVariable int userid){
+        return userDao.findUsernameById(userid);
+    }
+
 
 
 
