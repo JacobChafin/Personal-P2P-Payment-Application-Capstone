@@ -197,14 +197,6 @@ public class JdbcUserDao implements UserDao {
             // Accounts of receiver + transferAmount
 
 
-
-
-
-
-
-    // TODO User Id instead of Username?
-
-
     // TODO Transfer needs to display sender and receiver User ID's and the amount transferred
 
 

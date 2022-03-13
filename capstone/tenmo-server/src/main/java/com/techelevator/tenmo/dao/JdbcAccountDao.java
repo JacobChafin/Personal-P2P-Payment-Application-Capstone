@@ -1,6 +1,7 @@
 package com.techelevator.tenmo.dao;
 
 import com.techelevator.tenmo.model.Account;
+import com.techelevator.tenmo.model.Transfer;
 import com.techelevator.tenmo.model.User;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.support.rowset.SqlRowSet;
@@ -33,7 +34,7 @@ public JdbcAccountDao(DataSource dataSource) {
 
     //TODO FindIdByUsername not initiated.  in JDBCUserDao
 
-//    @Override
+    @Override
     public BigDecimal depositToBalance(BigDecimal transferAmount, int userId) {
 //        BigDecimal balance = BigDecimal.valueOf(0);
 //        int idForDeposit = findIdByUsername(username);
@@ -43,7 +44,7 @@ public JdbcAccountDao(DataSource dataSource) {
 
         return updatedBalance;
     }
-//    @Override
+    @Override
     public BigDecimal withdrawalFromBalance(BigDecimal transferAmount, int userId) {
 //        BigDecimal balance = BigDecimal.valueOf(0);
 //        int idForWithdrawal = findIdByUsername(username);
@@ -53,6 +54,12 @@ public JdbcAccountDao(DataSource dataSource) {
         String sql = "UPDATE account SET balance = ? Where user_id =?";
 
         return updatedBalance;
+    }
+    @Override
+    public String completeTransfer (int fromUserId, int toUserId, BigDecimal transferAmount) {
+    withdrawalFromBalance(transferAmount,fromUserId);
+    depositToBalance(transferAmount,toUserId);
+    return "Transfer Completed";
     }
 
     @Override
