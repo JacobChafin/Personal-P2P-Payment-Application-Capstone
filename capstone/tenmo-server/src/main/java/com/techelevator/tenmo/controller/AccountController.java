@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.math.BigDecimal;
+import java.security.Principal;
 import java.util.List;
 
 @RestController
@@ -27,13 +28,14 @@ private JdbcAccountDao accountDao;
     }
 
 
+
     @RequestMapping(path = "balance/{userid}", method = RequestMethod.GET)
-    public BigDecimal getBalance(@Valid @PathVariable int userid) {
-
-
-        BigDecimal balance = accountDao.getBalance(userid);
-
-        return balance;
+    public BigDecimal getBalance(@Valid @PathVariable int userid, Principal principal) {
+        if (principal.getName().equals(userDao.findByUsername(principal.getName()).getUsername())) {
+            BigDecimal balance = accountDao.getBalance(userid);
+            return balance;
+        }
+        return null;
     }
 
     @RequestMapping(path = "users/", method = RequestMethod.GET)

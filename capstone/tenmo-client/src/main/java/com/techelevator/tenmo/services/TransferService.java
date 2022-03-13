@@ -32,8 +32,8 @@ public class TransferService {
             transfers = restTemplate.exchange(API_BASE_URL + "account/transfers/" + authenticatedUser.getUser().getId(),
                     HttpMethod.GET,
                     makeAuthEntity(authenticatedUser),
-                    Transfer[].class
-            ).getBody();
+                    Transfer[].class).getBody();
+//            transfers = response.getBody();
         } catch(RestClientResponseException | ResourceAccessException e) {
             BasicLogger.log(e.getMessage());
         }
