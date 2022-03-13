@@ -2,12 +2,14 @@ package com.techelevator.tenmo.controller;
 
 
 import com.techelevator.tenmo.dao.*;
+import com.techelevator.tenmo.model.Account;
 import com.techelevator.tenmo.model.Transfer;
 import com.techelevator.tenmo.model.User;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.math.BigDecimal;
 import java.util.List;
 
@@ -19,10 +21,12 @@ public class TransferController {
     private UserDao userDao;
     private Transfer transfer;
     private TransferDao transferDao;
+    private AccountDao accountDao;
 
-    public TransferController(TransferDao transfer, UserDao user) {
+    public TransferController(TransferDao transfer, UserDao user, AccountDao account) {
         this.transferDao = transfer;
         this.userDao = user;
+        this.accountDao = account;
     }
 
 
@@ -39,11 +43,19 @@ public class TransferController {
         return response;
     }
 
-    @RequestMapping(path = "transfer/{sendingFromUserId}/{sendingToUserId}/{transferAmount}", method = RequestMethod.POST)
-    public String transfer (@PathVariable Integer sendingFromUserId, Integer sendingToUserId, BigDecimal transferAmount) {
-        String response = userDao.transfer(sendingFromUserId, sendingToUserId, transferAmount);
+    @RequestMapping(path = "transfer/{sendingFromUserId}/{sendingToUserId}/{balance}", method = RequestMethod.POST)
+    public String completeTransfer (@PathVariable int sendingFromUserId, @PathVariable int sendingToUserId,
+                                    @PathVariable BigDecimal transferAmount) {
+        String response = accountDao.completeTransfer(sendingFromUserId, sendingToUserId, transferAmount);
         return response;
     }
+
+    @ResponseStatus(HttpStatus.CREATED)
+    @RequestMapping(path = "transfer/{fromId}/{toId}", method = RequestMethod.POST)
+    public boolean sendBucks (@PathVariable int fromId, @PathVariable int toId, @Valid @RequestBody Transfer transfer){
+       return transferDao.sendTEBucks(fromId, toId, transfer);
+    }
+
 
 
 //    @ResponseStatus(value = HttpStatus.ACCEPTED)

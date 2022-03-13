@@ -1,5 +1,6 @@
 package com.techelevator.tenmo.services;
 
+import com.techelevator.tenmo.model.Account;
 import com.techelevator.tenmo.model.AuthenticatedUser;
 import com.techelevator.tenmo.model.User;
 import com.techelevator.tenmo.model.UserCredentials;
@@ -66,6 +67,19 @@ public class UserService {
             BasicLogger.log(e.getMessage());
         }
         return user;
+    }
+
+    public Account getAccountById(AuthenticatedUser authenticatedUser, int id){
+        Account account = null;
+        try {
+            account = restTemplate.exchange(API_BASE_URL + "users/accounts/" + id,
+                    HttpMethod.GET,
+                    makeAuthEntity(authenticatedUser),
+                    Account.class).getBody();
+        } catch (RestClientResponseException | ResourceAccessException e) {
+            BasicLogger.log(e.getMessage());
+        }
+        return account;
     }
 
 

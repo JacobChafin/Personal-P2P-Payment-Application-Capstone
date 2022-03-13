@@ -11,5 +11,5 @@ public interface TransferDao {
 
     public List<Transfer> getListOfAllTransfers(int userId);
 
-
+    boolean sendTEBucks(int userFrom, int userTo, Transfer transfer);
 }

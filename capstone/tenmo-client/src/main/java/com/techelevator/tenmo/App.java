@@ -1,9 +1,6 @@
 package com.techelevator.tenmo;
 
-import com.techelevator.tenmo.model.AuthenticatedUser;
-import com.techelevator.tenmo.model.Transfer;
-import com.techelevator.tenmo.model.User;
-import com.techelevator.tenmo.model.UserCredentials;
+import com.techelevator.tenmo.model.*;
 import com.techelevator.tenmo.services.AuthenticationService;
 import com.techelevator.tenmo.services.ConsoleService;
 import com.techelevator.tenmo.services.TransferService;
@@ -12,6 +9,7 @@ import com.techelevator.tenmo.services.UserService;
 import java.math.BigDecimal;
 import java.sql.SQLOutput;
 import java.util.Arrays;
+import java.util.Objects;
 
 public class App {
     private int balance;
@@ -22,7 +20,7 @@ public class App {
     private final AuthenticationService authenticationService = new AuthenticationService(API_BASE_URL);
     private AuthenticatedUser currentUser;
     TransferService transferService = new TransferService();
-
+    Account account;
     public static void main(String[] args) {
         App app = new App();
         app.run();
@@ -91,7 +89,10 @@ public class App {
                 requestBucks();
             } else if (menuSelection == 6) {
                 listUsers();
-            } else if (menuSelection == 0) {
+            } else if (menuSelection == 69){
+                System.out.println(currentUser.getToken());
+            }
+            else if (menuSelection == 0) {
                 continue;
             } else {
                 System.out.println("Invalid Selection");
@@ -132,7 +133,6 @@ public class App {
                     + userService.getUserById(currentUser, userIdFrom).getUsername()
                     +"         $"
                     + userService.getBalance(currentUser));
-            //TODO get balance from account
 
             System.out.println(transfer.getTransferId()
                     + "      To: "
@@ -161,11 +161,45 @@ public class App {
     }
 
     public void sendBucks() {
-//        balance = balance - amountToSend;
-//        return balance;
-//		// TODO Auto-generated method stub
-//
+        Transfer transfer = new Transfer();
+        User[] users = userService.listUsers(currentUser);
+        System.out.println("-------------------------------------------");
+        System.out.println("ID       :     Name");
+        System.out.println();
+        for (User user : users) {
+            System.out.println(user.getId() + "     :     " + user.getUsername());
+        }
+        System.out.println("-------------------------------------------");
+        int accountToSend = 0;
+        while(true) {
+            accountToSend = consoleService.promptForMenuSelection("Enter ID of user you are sending to (0 to cancel): ");
+            if (accountToSend == 0){
+                break;
+            }
+            else {
+                    User userToSend = userService.getUserById(currentUser, accountToSend);
+                    if (userToSend == null){
+                        System.out.println("User does not exist");
+                        break;
+                    }
+                    else if (Objects.equals(userToSend.getId(), currentUser.getUser().getId())){
+                        System.out.println("You can't send money to yourself");
+                        break;
+                    }
+                    System.out.println("How much money do you want to send to ID: " + userToSend.getId()
+                            + " User: " + userToSend.getUsername());
+                    BigDecimal amountToSend = consoleService.promptForBigDecimal("Enter amount: ");
+                    int currentUserId = Math.toIntExact(currentUser.getUser().getId());
+                    transfer.setAccountFrom(userService.getAccountById(currentUser, currentUserId).getAccountId());
+                    transfer.setAccountTo(userService.getAccountById(currentUser, accountToSend).getAccountId());
+                    transfer.setAmount(amountToSend);
+                    boolean didItWork = transferService.sendTEbucks(currentUser, currentUserId, accountToSend, transfer);
+                System.out.println(didItWork);
+                    break;
+            }
+        }
     }
+
 
     public void requestBucks() {
 //        balance = balance + amountToRequest;

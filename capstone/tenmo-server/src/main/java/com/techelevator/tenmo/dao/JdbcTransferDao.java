@@ -21,7 +21,7 @@ public class JdbcTransferDao implements TransferDao {
     }
 
 
-        @Override
+    @Override
     public Transfer getTransfersById(int transferId) {
         Transfer transfer = new Transfer();
         String sql = "SELECT * " +
@@ -36,7 +36,7 @@ public class JdbcTransferDao implements TransferDao {
         return transfer;
     }
 
-        @Override
+    @Override
     public List<Transfer> getListOfAllTransfers(int userId) {
         List<Transfer> listOfTransfers = new ArrayList<>();
 
@@ -49,9 +49,35 @@ public class JdbcTransferDao implements TransferDao {
 //            Transfer transfers = mapRowToTransfer(fullTransferList);
             listOfTransfers.add(mapRowToTransfer(fullTransferList));
         }
-    return listOfTransfers;
+        return listOfTransfers;
     }
 
+    @Override
+    public boolean sendTEBucks(int userFrom, int userTo, Transfer transfer) {
+
+        boolean didItWork = false;
+        String sql = "INSERT INTO transfers " +
+                "(transfer_id, transfer_type_id, transfer_status_id, account_from, account_to, amount) " +
+                "VALUES (DEFAULT, 2, 2, ?, ?, ?); " +
+                "UPDATE accounts " +
+                "SET balance = balance - ? " +
+                "WHERE user_id = ?; " +
+                "UPDATE accounts " +
+                "SET balance = balance + ? " +
+                "WHERE user_id = ?; ";
+        int num = jdbcTemplate.update(sql,
+                transfer.getAccountFrom(),
+                transfer.getAccountTo(),
+                transfer.getAmount(),
+                transfer.getAmount(),
+                userFrom,
+                transfer.getAmount(),
+                userTo);
+        if (num == 1) {
+            didItWork = true;
+        }
+        return didItWork;
+    }
 
 
 //    @ResponseStatus(value = HttpStatus.ACCEPTED)
@@ -71,7 +97,6 @@ public class JdbcTransferDao implements TransferDao {
 //    }
 
 
-
     private Transfer mapRowToTransfer(SqlRowSet stupidDumbSqlRowSetResults) {
 
 
@@ -82,7 +107,6 @@ public class JdbcTransferDao implements TransferDao {
         transfer.setAccountFrom(stupidDumbSqlRowSetResults.getInt("account_from"));
         transfer.setAccountTo(stupidDumbSqlRowSetResults.getInt("account_to"));
         transfer.setAmount(stupidDumbSqlRowSetResults.getBigDecimal("amount"));
-
 
 
 //        transfer.setTransferType(stupidDumbSqlRowSetResults.getString("transfer_type_desc"));
