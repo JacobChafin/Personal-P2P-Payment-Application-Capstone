@@ -6,8 +6,9 @@ import java.math.BigDecimal;
 
 public interface AccountDao {
     BigDecimal getBalance(int userid);
-
-
+    public BigDecimal depositToBalance(BigDecimal transferAmount, int userId);
+    public BigDecimal withdrawalFromBalance(BigDecimal transferAmount, int userId);
+    public String completeTransfer(int fromUserId, int toUserId, BigDecimal transferAmount);
 
 
 
