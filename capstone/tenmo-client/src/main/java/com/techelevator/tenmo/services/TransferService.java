@@ -59,6 +59,18 @@ public class TransferService {
         return transfers;
     }
 
+    public Transfer createTransfer(AuthenticatedUser authenticatedUser, Transfer transfer) {
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_JSON);
+        HttpEntity<Transfer> entity = new HttpEntity<>(transfer, headers);
+        Transfer newTransfer = null;
+        try {
+            restTemplate.exchange(API_BASE_URL + "/transfers", HttpMethod.POST, entity, Transfer.class);
+        } catch (RestClientResponseException | ResourceAccessException e) {
+            BasicLogger.log(e.getMessage());
+        }
+        return transfer;
+    }
 
 
     private HttpEntity<Void> makeAuthEntity(AuthenticatedUser authenticatedUser) {
@@ -67,6 +79,7 @@ public class TransferService {
         HttpEntity entity = new HttpEntity<>(headers);
         return entity;
     }
+
 
 
 

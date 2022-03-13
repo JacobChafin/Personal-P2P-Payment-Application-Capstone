@@ -121,21 +121,20 @@ public class App {
             System.out.print("don't exist lol find friends");
         }
         for (Transfer transfer : transfers) {
-            System.out.println(transfer.getAccountFrom());
             int accountIdFrom = transfer.getAccountFrom();
             int accountIdTo = transfer.getAccountTo();
             User userFrom = userService.getUserByAccountId(currentUser, accountIdFrom);
             User userTo = userService.getUserByAccountId(currentUser, accountIdTo);
             int userIdFrom = Math.toIntExact(userFrom.getId());
             int userIdTo = Math.toIntExact(userTo.getId());
-            System.out.println(userIdFrom
+            System.out.println(transfer.getTransferId()
                     + "      From: "
                     + userService.getUserById(currentUser, userIdFrom).getUsername()
                     +"         $"
-                    + transfer.getAmount());
+                    + userService.getBalance(currentUser));
             //TODO get balance from account
 
-            System.out.println(userIdTo
+            System.out.println(transfer.getTransferId()
                     + "      To: "
                     + userService.getUserById(currentUser, userIdTo).getUsername()
                     +"         $"
