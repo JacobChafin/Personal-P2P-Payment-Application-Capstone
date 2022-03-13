@@ -39,7 +39,7 @@ public class TransferController {
         return response;
     }
 
-    @RequestMapping(path = "account/transfer", method = RequestMethod.POST)
+    @RequestMapping(path = "transfer/{sendingFromUserId}/{sendingToUserId}/{transferAmount}", method = RequestMethod.POST)
     public String transfer (@PathVariable int sendingFromUserId, int sendingToUserId, BigDecimal transferAmount) {
         String response = userDao.transfer(sendingFromUserId, sendingToUserId, transferAmount);
         return response;
