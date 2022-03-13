@@ -31,32 +31,29 @@ public JdbcAccountDao(DataSource dataSource) {
         return balance;
     }
 
-
-
-
-
+    //TODO FindIdByUsername not initiated.  in JDBCUserDao
 
 //    @Override
-//    public BigDecimal depositToBalance(BigDecimal transferAmount, String username) {
+    public BigDecimal depositToBalance(BigDecimal transferAmount, int userId) {
 //        BigDecimal balance = BigDecimal.valueOf(0);
 //        int idForDeposit = findIdByUsername(username);
-//        BigDecimal updatedBalance = getBalance(idForDeposit).add(transferAmount);
-//        // Display new balance
-//        String sql = "UPDATE accounts SET balance = ? WHERE user_id = ?";
-//
-//        return balance;
-//    }
+        BigDecimal updatedBalance = getBalance(userId).add(transferAmount);
+        // Display new balance
+        String sql = "UPDATE account SET balance = ? WHERE user_id = ?";
+
+        return updatedBalance;
+    }
 //    @Override
-//    public BigDecimal withdrawalFromBalance(BigDecimal transferAmount, String username) {
+    public BigDecimal withdrawalFromBalance(BigDecimal transferAmount, int userId) {
 //        BigDecimal balance = BigDecimal.valueOf(0);
 //        int idForWithdrawal = findIdByUsername(username);
-//        // TODO Username.getBalance needs to be initialized
-//        BigDecimal updatedBalance = getBalance(idForWithdrawal).subtract(transferAmount);
-//        // Display new Balance
-//        String sql = "Update accounts Set Balance = ? Where user_id =?";
-//
-//        return balance;
-//    }
+        // TODO Username.getBalance needs to be initialized
+        BigDecimal updatedBalance = getBalance(userId).subtract(transferAmount);
+        // Display new Balance
+        String sql = "UPDATE account SET balance = ? Where user_id =?";
+
+        return updatedBalance;
+    }
 
 
 }
