@@ -15,6 +15,7 @@ import java.util.List;
 @Component
 public class JdbcTransferDao implements TransferDao {
     private JdbcTemplate jdbcTemplate;
+    UserDao userDao;
 
     public JdbcTransferDao(DataSource dataSource) {
         this.jdbcTemplate = new JdbcTemplate(dataSource);
@@ -56,25 +57,34 @@ public class JdbcTransferDao implements TransferDao {
     public boolean sendTEBucks(int userFrom, int userTo, Transfer transfer) {
 
         boolean didItWork = false;
-        String sql = "INSERT INTO transfers " +
-                "(transfer_id, transfer_type_id, transfer_status_id, account_from, account_to, amount) " +
-                "VALUES (DEFAULT, 2, 2, ?, ?, ?); " +
-                "UPDATE accounts " +
-                "SET balance = balance - ? " +
-                "WHERE user_id = ?; " +
-                "UPDATE accounts " +
-                "SET balance = balance + ? " +
-                "WHERE user_id = ?; ";
-        int num = jdbcTemplate.update(sql,
-                transfer.getAccountFrom(),
-                transfer.getAccountTo(),
-                transfer.getAmount(),
-                transfer.getAmount(),
-                userFrom,
-                transfer.getAmount(),
-                userTo);
-        if (num == 1) {
-            didItWork = true;
+        if (userFrom == userTo) {
+            return didItWork;
+        }
+        if ((transfer.getAmount().compareTo(userDao.getBalance(userFrom))) >= 0) {
+
+
+            String sql = "BEGIN; " +
+                    "INSERT INTO transfer " +
+                    "(transfer_id, transfer_type_id, transfer_status_id, account_from, account_to, amount) " +
+                    "VALUES (DEFAULT, 2, 2, ?, ?, ?); " +
+                    "UPDATE account " +
+                    "SET balance = balance - ? " +
+                    "WHERE account_id = ?; " +
+                    "UPDATE account " +
+                    "SET balance = balance + ? " +
+                    "WHERE account_id = ?; " +
+                    "COMMIT; ";
+            int num = jdbcTemplate.update(sql,
+                    transfer.getAccountFrom(),
+                    transfer.getAccountTo(),
+                    transfer.getAmount(),
+                    transfer.getAmount(),
+                    userFrom,
+                    transfer.getAmount(),
+                    userTo);
+            if (num == 1) {
+                didItWork = true;
+            }
         }
         return didItWork;
     }
