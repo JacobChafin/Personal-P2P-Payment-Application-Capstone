@@ -31,7 +31,7 @@ public class UserService {
 
         try {
             balance = restTemplate.exchange(
-                    API_BASE_URL + "/balance/" + authenticatedUser.getUser().getId(),
+                    API_BASE_URL + "balance/" + authenticatedUser.getUser().getId(),
                     HttpMethod.GET,
                     makeAuthEntity(authenticatedUser),
                     BigDecimal.class).getBody();
@@ -42,10 +42,23 @@ public class UserService {
         return balance;
     }
 
-    public User getUserById(AuthenticatedUser authenticatedUser){
+    public User getUserById(AuthenticatedUser authenticatedUser, int id){
         User user = null;
         try {
-            user = restTemplate.exchange(API_BASE_URL + "/transfers/" + authenticatedUser.getUser().getId(),
+            user = restTemplate.exchange(API_BASE_URL + "users/" + id,
+                    HttpMethod.GET,
+                    makeAuthEntity(authenticatedUser),
+                    User.class).getBody();
+        } catch (RestClientResponseException | ResourceAccessException e) {
+            BasicLogger.log(e.getMessage());
+        }
+        return user;
+    }
+
+    public User getUserByAccountId(AuthenticatedUser authenticatedUser, int id){
+        User user = null;
+        try {
+            user = restTemplate.exchange(API_BASE_URL + "accounts/users/" + id,
                     HttpMethod.GET,
                     makeAuthEntity(authenticatedUser),
                     User.class).getBody();

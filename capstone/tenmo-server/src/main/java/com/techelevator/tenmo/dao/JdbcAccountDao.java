@@ -1,7 +1,10 @@
 package com.techelevator.tenmo.dao;
 
+import com.techelevator.tenmo.model.Account;
+import com.techelevator.tenmo.model.User;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.support.rowset.SqlRowSet;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Component;
 
 import javax.sql.DataSource;
@@ -26,6 +29,12 @@ public JdbcAccountDao(DataSource dataSource) {
 //        results = jdbcTemplate.queryForRowSet(sql, userid);
         return balance;
     }
+
+
+
+
+
+
 //    @Override
 //    public BigDecimal depositToBalance(BigDecimal transferAmount, String username) {
 //        BigDecimal balance = BigDecimal.valueOf(0);

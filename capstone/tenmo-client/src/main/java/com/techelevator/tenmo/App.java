@@ -10,6 +10,7 @@ import com.techelevator.tenmo.services.TransferService;
 import com.techelevator.tenmo.services.UserService;
 
 import java.math.BigDecimal;
+import java.sql.SQLOutput;
 import java.util.Arrays;
 
 public class App {
@@ -111,19 +112,34 @@ public class App {
 
     private void viewTransferHistory() {
 //        TransferService transferService = new TransferService();
+//        int id = Math.toIntExact(currentUser.getUser().getId());
         Transfer[] transfers = transferService.getTransfersFromUserId(currentUser);
         System.out.println("--------------------------------------------");
-        System.out.println("Your transfers are ");
+        System.out.println("Transfers ");
+        System.out.println("ID      FROM/TO       Amount");
         if (transfers == null) {
-            System.out.print("nothing lol");
+            System.out.print("don't exist lol find friends");
         }
-        System.out.println("poop");
-        System.out.println(transfers.length);
         for (Transfer transfer : transfers) {
             System.out.println(transfer.getAccountFrom());
-            int idFrom = transfer.getAccountFrom();
-            int idTo = transfer.getAccountTo();
-//            System.out.println(userService);
+            int accountIdFrom = transfer.getAccountFrom();
+            int accountIdTo = transfer.getAccountTo();
+            User userFrom = userService.getUserByAccountId(currentUser, accountIdFrom);
+            User userTo = userService.getUserByAccountId(currentUser, accountIdTo);
+            int userIdFrom = Math.toIntExact(userFrom.getId());
+            int userIdTo = Math.toIntExact(userTo.getId());
+            System.out.println(userIdFrom
+                    + "      From: "
+                    + userService.getUserById(currentUser, userIdFrom).getUsername()
+                    +"         $"
+                    + transfer.getAmount());
+            //TODO get balance from account
+
+            System.out.println(userIdTo
+                    + "      To: "
+                    + userService.getUserById(currentUser, userIdTo).getUsername()
+                    +"         $"
+                    + transfer.getAmount());
         }
 
         System.out.println();

@@ -27,18 +27,28 @@ public class JdbcUserDao implements UserDao {
     }
 
     @Override
-    public String findUsernameById(int userid) {
-        String sql = "SELECT username FROM tenmo_user WHERE username ILIKE ?;";
-        String name = jdbcTemplate.queryForObject(sql, String.class, userid);
-        if (name != null) {
-            return name;
-        } else {
-            return "couldn't find name // method in JdbcUserDao broked";
+    public User findUserByAccountId(int accountId) throws UsernameNotFoundException {
+        String sql = "SELECT tenmo_user.user_id, username, password_hash from tenmo_user" +
+                " JOIN account ON account.user_id = tenmo_user.user_id where account_Id = ?;";
+        SqlRowSet rowSet = jdbcTemplate.queryForRowSet(sql, accountId);
+        if (rowSet.next()) {
+            return mapRowToUser(rowSet);
         }
+        throw new UsernameNotFoundException("Account ID " + accountId + " was not found.");
     }
 
     @Override
-    public int findIdByUsername(String username) {
+    public User findUserById(int userid) throws UsernameNotFoundException{
+        String sql = "SELECT user_id, username, password_hash FROM tenmo_user WHERE user_id = ?;";
+        SqlRowSet rowSet = jdbcTemplate.queryForRowSet(sql, userid);
+        if (rowSet.next()) {
+            return mapRowToUser(rowSet);
+        }
+        throw new UsernameNotFoundException("User ID " + userid + " was not found.");
+    }
+
+    @Override
+    public int findIdByUsername(String username){
         String sql = "SELECT user_id FROM tenmo_user WHERE username ILIKE ?;";
         Integer id = jdbcTemplate.queryForObject(sql, Integer.class, username);
         if (id != null) {
