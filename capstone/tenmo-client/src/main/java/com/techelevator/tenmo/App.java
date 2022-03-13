@@ -118,6 +118,25 @@ public class App {
         System.out.println("--------------------------------------------");
         System.out.println("Transfers ");
         System.out.println("ID      FROM/TO       Amount");
+        for (Transfer transfer : transfers){
+            int currentUserId = Math.toIntExact(currentUser.getUser().getId());
+            if(transfer.getAccountFrom() == userService.getAccountById(currentUser, currentUserId).getAccountId()) {
+                System.out.println(transfer.getTransferId()
+                        + "      From: "
+                        + currentUser.getUser().getUsername()
+                        + "      Amount: "
+                        + transfer.getAmount());
+            }
+            else {
+                System.out.println(transfer.getTransferId()
+                        +"         To: "
+                       + transfer.getAccountTo()
+                       +"Amount: "
+                        + transfer.getAmount());
+            }
+//            System.out.println("      To: "
+//                    +   userService.getUsernameByAccountId(currentUser, transfer.getAccountTo()));
+        }
         boolean breakLoop = true;
         while (breakLoop) {
             if (transfers == null) {
@@ -129,22 +148,22 @@ public class App {
                 int accountIdTo = transfer.getAccountTo();
                 User userFrom = userService.getUserByAccountId(currentUser, accountIdFrom);
                 User userTo = userService.getUserByAccountId(currentUser, accountIdTo);
-                int userIdFrom = Math.toIntExact(userFrom.getId());
-                int userIdTo = Math.toIntExact(userTo.getId());
-                System.out.println(transfer.getTransferId()
-                        + "      From: "
-                        + userService.getUserById(currentUser, userIdFrom).getUsername()
-                        + "         $"
-                        + userService.getBalance(currentUser));
-
-                System.out.println(transfer.getTransferId()
-                        + "      To: "
-                        + userService.getUserById(currentUser, userIdTo).getUsername()
-                        + "         $"
-                        + transfer.getAmount());
+//                int userIdFrom = Math.toIntExact(userFrom.getId());
+//                int userIdTo = Math.toIntExact(userTo.getId());
+//                System.out.println(transfer.getTransferId()
+//                        + "      From: "
+//                        + userService.getUserById(currentUser, userIdFrom).getUsername()
+//                        + "         $"
+//                        + userService.getBalance(currentUser));
+//
+//                System.out.println(transfer.getTransferId()
+//                        + "      To: "
+//                        + userService.getUserById(currentUser, userIdTo).getUsername()
+//                        + "         $"
+//                        + transfer.getAmount());
                 int choice = consoleService.promptForMenuSelection("Please enter transfer ID to view details (0 to cancel): ");
                 if (choice == 0){
-                    breakLoop = false;
+                    break;
                 }
                 else{
                     Transfer transferToDisplay = transferService.getTransferById(currentUser, choice);
@@ -166,7 +185,7 @@ public class App {
                         //TODO add type and status instead of hard coding what it is
                     }
                 }
-                breakLoop = false;
+//                breakLoop = false;
             }
         }
 
@@ -219,6 +238,7 @@ public class App {
                 int currentUserId = Math.toIntExact(currentUser.getUser().getId());
                 int accountFrom = Math.toIntExact(userService.getAccountById(currentUser, currentUserId).getAccountId());
                 int accountTo = Math.toIntExact(userService.getAccountById(currentUser, accountToSend).getAccountId());
+
                 transfer.setAccountFrom(accountFrom);
                 transfer.setAccountTo(accountTo);
                 transfer.setAmount(amountToSend);
