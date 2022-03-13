@@ -43,6 +43,16 @@ private JdbcAccountDao accountDao;
         return userDao.findAll();
     }
 
+    @RequestMapping(path = "users/{userid}", method = RequestMethod.GET)
+    public User findUserById(@PathVariable int userid){
+        return userDao.findUserById(userid);
+    }
+
+    @RequestMapping(path = "accounts/users/{userid}", method = RequestMethod.GET)
+    public User findUserByAccountId(@PathVariable int userid){
+        return userDao.findUserByAccountId(userid);
+    }
+
 
 
 
