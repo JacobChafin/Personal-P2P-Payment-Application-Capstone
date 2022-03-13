@@ -14,7 +14,6 @@ import java.math.BigDecimal;
 import java.util.List;
 
 
-
 @RestController
 @PreAuthorize("isAuthenticated()")
 public class TransferController {
@@ -30,7 +29,7 @@ public class TransferController {
     }
 
 
-// authentication
+    // authentication
     @RequestMapping(path = "transfer/{userid}", method = RequestMethod.GET)
     public Transfer getTransfer(@PathVariable int userid) {
 //        Transfer transfer = transfer.getTransferId(userid);
@@ -38,22 +37,30 @@ public class TransferController {
     }
 
     @RequestMapping(path = "account/transfer/{userid}", method = RequestMethod.GET)
-    public List<Transfer> listOfTransfers (@PathVariable int userid) {
+    public List<Transfer> listOfTransfers(@PathVariable int userid) {
         List<Transfer> response = transferDao.getListOfAllTransfers(userid);
         return response;
     }
 
+
+    @RequestMapping(path = "transfer/{sendingFromUserId}/{sendingToUserId}/{transferAmount}", method = RequestMethod.POST)
+    public String transfer(@PathVariable Integer sendingFromUserId, Integer sendingToUserId, BigDecimal transferAmount) {
+        String response = userDao.transfer(sendingFromUserId, sendingToUserId, transferAmount);
+        return response;
+    }
+
     @RequestMapping(path = "transfer/{sendingFromUserId}/{sendingToUserId}/{balance}", method = RequestMethod.POST)
-    public String completeTransfer (@PathVariable int sendingFromUserId, @PathVariable int sendingToUserId,
-                                    @PathVariable BigDecimal transferAmount) {
+    public String completeTransfer(@PathVariable int sendingFromUserId, @PathVariable int sendingToUserId,
+                                   @PathVariable BigDecimal transferAmount) {
         String response = accountDao.completeTransfer(sendingFromUserId, sendingToUserId, transferAmount);
         return response;
     }
 
     @ResponseStatus(HttpStatus.CREATED)
     @RequestMapping(path = "transfer/{fromId}/{toId}", method = RequestMethod.POST)
-    public boolean sendBucks (@PathVariable int fromId, @PathVariable int toId, @Valid @RequestBody Transfer transfer){
-       return transferDao.sendTEBucks(fromId, toId, transfer);
+    public boolean sendBucks(@PathVariable int fromId, @PathVariable int toId,
+                             @Valid @RequestBody Transfer transfer) {
+        return transferDao.sendTEBucks(fromId, toId, transfer);
     }
 
 
