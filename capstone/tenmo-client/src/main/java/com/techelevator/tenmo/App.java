@@ -155,7 +155,7 @@ public class App {
                     else {
                         System.out.println("------------");
                         System.out.println("ID: "+  transferToDisplay.getTransferId());
-                        System.out.println("From: "+  userService.getUsernameByAccountId(currentUser, transferToDisplay.getAccountFrom());
+                        System.out.println("From: "+  userService.getUsernameByAccountId(currentUser, transferToDisplay.getAccountFrom()));
                         System.out.println("Type: "+  transferToDisplay.getTransferType());
                         System.out.println("Status: "+  transferToDisplay.getTransferId());
                         System.out.println("Amount: "+  transferToDisplay.getTransferId());
