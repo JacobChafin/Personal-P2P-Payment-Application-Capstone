@@ -157,30 +157,29 @@ public class JdbcUserDao implements UserDao {
 
     @Override
     public BigDecimal depositToBalance(BigDecimal transferAmount, String username) {
-        BigDecimal balance = BigDecimal.valueOf(0);
         int idForDeposit = findIdByUsername(username);
         BigDecimal updatedBalance = getBalance(idForDeposit).add(transferAmount);
         // Display new balance
         String sql = "UPDATE accounts SET balance = ? WHERE user_id = ?";
 
-        return balance;
+        return updatedBalance;
     }
 
     @Override
     public BigDecimal withdrawalFromBalance(BigDecimal transferAmount, String username) {
-        BigDecimal balance = BigDecimal.valueOf(0);
         int idForWithdrawal = findIdByUsername(username);
         // TODO Username.getBalance needs to be initialized
         BigDecimal updatedBalance = getBalance(idForWithdrawal).subtract(transferAmount);
         // Display new Balance
         String sql = "Update accounts Set Balance = ? Where user_id =?";
 
-        return balance;
+        return updatedBalance;
     }
     //TODO @ResponseStatus for ACCEPTED in transfer Method
 
+    @Override
     @ResponseStatus(value = HttpStatus.ACCEPTED)
-    private String transfer(int sendingFromUserId, int sendingToUserId, BigDecimal transferAmount) {
+    public String transfer(int sendingFromUserId, int sendingToUserId, BigDecimal transferAmount) {
         if (sendingFromUserId == sendingToUserId) {
 
             return "Invalid User.  Select Valid User ID";

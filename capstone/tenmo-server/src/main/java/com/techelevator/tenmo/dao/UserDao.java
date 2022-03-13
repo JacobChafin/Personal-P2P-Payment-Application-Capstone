@@ -28,4 +28,6 @@ public interface UserDao {
     BigDecimal depositToBalance(BigDecimal transferAmount, String username);
 
     BigDecimal withdrawalFromBalance(BigDecimal transferAmount, String username);
+
+    String transfer(int sendingFromUserId, int sendingToUserId,BigDecimal transferAmount);
 }
