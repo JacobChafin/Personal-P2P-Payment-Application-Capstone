@@ -9,6 +9,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.math.BigDecimal;
 import java.util.List;
 
@@ -48,6 +49,13 @@ public class TransferController {
         String response = accountDao.completeTransfer(sendingFromUserId, sendingToUserId, transferAmount);
         return response;
     }
+
+    @ResponseStatus(HttpStatus.CREATED)
+    @RequestMapping(path = "transfer/{fromId}/{toId}", method = RequestMethod.POST)
+    public boolean sendBucks (@PathVariable int fromId, @PathVariable int toId, @Valid @RequestBody Transfer transfer){
+       return transferDao.sendTEBucks(fromId, toId, transfer);
+    }
+
 
 
 //    @ResponseStatus(value = HttpStatus.ACCEPTED)
