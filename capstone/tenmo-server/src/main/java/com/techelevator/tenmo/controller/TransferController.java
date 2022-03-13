@@ -43,13 +43,13 @@ public class TransferController {
     }
 
 
-    @RequestMapping(path = "transfer/{sendingFromUserId}/{sendingToUserId}/{transferAmount}", method = RequestMethod.POST)
-    public String transfer(@PathVariable Integer sendingFromUserId, Integer sendingToUserId, BigDecimal transferAmount) {
-        String response = userDao.transfer(sendingFromUserId, sendingToUserId, transferAmount);
-        return response;
-    }
+//    @RequestMapping(path = "transfer/{sendingFromUserId}/{sendingToUserId}/{transferAmount}", method = RequestMethod.POST)
+//    public String transfer(@PathVariable Integer sendingFromUserId, Integer sendingToUserId, BigDecimal transferAmount) {
+//        String response = userDao.transfer(sendingFromUserId, sendingToUserId, transferAmount);
+//        return response;
+//    }
 
-    @RequestMapping(path = "transfer/{sendingFromUserId}/{sendingToUserId}/{balance}", method = RequestMethod.POST)
+    @RequestMapping(path = "transfer/{sendingFromUserId}/{sendingToUserId}/{transferAmount}", method = RequestMethod.POST)
     public String completeTransfer(@PathVariable int sendingFromUserId, @PathVariable int sendingToUserId,
                                    @PathVariable BigDecimal transferAmount) {
         String response = accountDao.completeTransfer(sendingFromUserId, sendingToUserId, transferAmount);
