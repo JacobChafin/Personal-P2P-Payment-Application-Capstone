@@ -30,4 +30,6 @@ public interface UserDao {
     BigDecimal withdrawalFromBalance(BigDecimal transferAmount, String username);
 
     String transfer(int sendingFromUserId, int sendingToUserId,BigDecimal transferAmount);
+
+   int findUsernameByAccount(int accountId);
 }
