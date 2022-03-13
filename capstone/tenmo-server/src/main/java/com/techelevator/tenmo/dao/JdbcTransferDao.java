@@ -1,11 +1,14 @@
 package com.techelevator.tenmo.dao;
 
+import org.springframework.http.HttpStatus;
 import org.springframework.jdbc.core.JdbcTemplate;
 import com.techelevator.tenmo.model.Transfer;
 import org.springframework.jdbc.support.rowset.SqlRowSet;
 import org.springframework.stereotype.Component;
+import org.springframework.web.bind.annotation.ResponseStatus;
 
 import javax.sql.DataSource;
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -18,7 +21,7 @@ public class JdbcTransferDao implements TransferDao {
     }
 
 
-    //    @Override
+        @Override
     public Transfer getTransfersById(int transferId) {
         Transfer transfer = new Transfer();
         String sql = "SELECT * " +
@@ -33,7 +36,7 @@ public class JdbcTransferDao implements TransferDao {
         return transfer;
     }
 
-    //    @Override
+        @Override
     public List<Transfer> getListOfAllTransfers(int userId) {
         List<Transfer> listOfTransfers = new ArrayList<>();
 
@@ -48,6 +51,26 @@ public class JdbcTransferDao implements TransferDao {
         }
     return listOfTransfers;
     }
+
+
+
+//    @ResponseStatus(value = HttpStatus.ACCEPTED)
+//    private String transfer(int sendingFromUserId, int sendingToUserId, BigDecimal transferAmount) {
+//        if (sendingFromUserId == sendingToUserId) {
+//
+//            return "Invalid User.  Select Valid User ID";
+//
+//        }if ((transferAmount.compareTo(getBalance(sendingFromUserId))) >= 0)
+//        {
+//            String sql = "INSERT INTO transfer (transfer_type_id, transfer_status_id, account_from, account_to, amount)"
+//                    + "VALUES 2,2,?,?,?";
+//            jdbcTemplate.update(sql, sendingFromUserId, sendingToUserId, transferAmount);
+//            return "Transfer Completed";}
+//
+//        return "Insufficient Funds";
+//    }
+
+
 
     private Transfer mapRowToTransfer(SqlRowSet stupidDumbSqlRowSetResults) {
 
