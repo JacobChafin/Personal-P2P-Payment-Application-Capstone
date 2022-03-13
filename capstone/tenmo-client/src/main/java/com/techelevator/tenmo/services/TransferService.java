@@ -31,7 +31,7 @@ public class TransferService {
     public Transfer getTransferById(AuthenticatedUser authenticatedUser, int id) {
         Transfer transfer = null;
         try {
-            transfer = restTemplate.exchange(API_BASE_URL + "transfers/" + id,
+            transfer = restTemplate.exchange(API_BASE_URL + "transfer/" + id,
                     HttpMethod.GET,
                     makeAuthEntity(authenticatedUser),
                     Transfer.class).getBody();
@@ -45,7 +45,7 @@ public class TransferService {
     public Transfer[] getTransfersFromUserId(AuthenticatedUser authenticatedUser) {
         Transfer[] transfers = null;
         try {
-            transfers = restTemplate.exchange(API_BASE_URL + "account/transfers/" + authenticatedUser.getUser().getId(),
+            transfers = restTemplate.exchange(API_BASE_URL + "account/transfer/" + authenticatedUser.getUser().getId(),
                     HttpMethod.GET,
                     makeAuthEntity(authenticatedUser),
                     Transfer[].class).getBody();
