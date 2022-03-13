@@ -21,6 +21,7 @@ public class App {
     private AuthenticatedUser currentUser;
     TransferService transferService = new TransferService();
     Account account;
+
     public static void main(String[] args) {
         App app = new App();
         app.run();
@@ -89,10 +90,9 @@ public class App {
                 requestBucks();
             } else if (menuSelection == 6) {
                 listUsers();
-            } else if (menuSelection == 69){
+            } else if (menuSelection == 69) {
                 System.out.println(currentUser.getToken());
-            }
-            else if (menuSelection == 0) {
+            } else if (menuSelection == 0) {
                 continue;
             } else {
                 System.out.println("Invalid Selection");
@@ -118,27 +118,51 @@ public class App {
         System.out.println("--------------------------------------------");
         System.out.println("Transfers ");
         System.out.println("ID      FROM/TO       Amount");
-        if (transfers == null) {
-            System.out.print("don't exist lol find friends");
-        }
-        for (Transfer transfer : transfers) {
-            int accountIdFrom = transfer.getAccountFrom();
-            int accountIdTo = transfer.getAccountTo();
-            User userFrom = userService.getUserByAccountId(currentUser, accountIdFrom);
-            User userTo = userService.getUserByAccountId(currentUser, accountIdTo);
-            int userIdFrom = Math.toIntExact(userFrom.getId());
-            int userIdTo = Math.toIntExact(userTo.getId());
-            System.out.println(transfer.getTransferId()
-                    + "      From: "
-                    + userService.getUserById(currentUser, userIdFrom).getUsername()
-                    +"         $"
-                    + userService.getBalance(currentUser));
+        boolean test = true;
+        while (test) {
+            if (transfers == null) {
+                System.out.print("don't exist lol find friends");
+                break;
+            }
+            for (Transfer transfer : transfers) {
+                int accountIdFrom = transfer.getAccountFrom();
+                int accountIdTo = transfer.getAccountTo();
+                User userFrom = userService.getUserByAccountId(currentUser, accountIdFrom);
+                User userTo = userService.getUserByAccountId(currentUser, accountIdTo);
+                int userIdFrom = Math.toIntExact(userFrom.getId());
+                int userIdTo = Math.toIntExact(userTo.getId());
+                System.out.println(transfer.getTransferId()
+                        + "      From: "
+                        + userService.getUserById(currentUser, userIdFrom).getUsername()
+                        + "         $"
+                        + userService.getBalance(currentUser));
 
-            System.out.println(transfer.getTransferId()
-                    + "      To: "
-                    + userService.getUserById(currentUser, userIdTo).getUsername()
-                    +"         $"
-                    + transfer.getAmount());
+                System.out.println(transfer.getTransferId()
+                        + "      To: "
+                        + userService.getUserById(currentUser, userIdTo).getUsername()
+                        + "         $"
+                        + transfer.getAmount());
+                int choice = consoleService.promptForMenuSelection("Please enter transfer ID to view details (0 to cancel): ");
+                if (choice == 0){
+                    test = false;
+                }
+                else{
+                    Transfer transferToDisplay = transferService.getTransferById(currentUser, choice);
+                    if(transferToDisplay == null){
+                        System.out.println("Transfer does not exist");
+                        break;
+                    }
+                    else {
+                        System.out.println("------------");
+                        System.out.println("ID: "+  transferToDisplay.getTransferId());
+                        System.out.println("From: "+  userService.getUsernameByAccountId(currentUser, transferToDisplay.getAccountFrom());
+                        System.out.println("Type: "+  transferToDisplay.getTransferType());
+                        System.out.println("Status: "+  transferToDisplay.getTransferId());
+                        System.out.println("Amount: "+  transferToDisplay.getTransferId());
+                    }
+                }
+                test = false;
+            }
         }
 
         System.out.println();
@@ -171,31 +195,33 @@ public class App {
         }
         System.out.println("-------------------------------------------");
         int accountToSend = 0;
-        while(true) {
+        while (true) {
             accountToSend = consoleService.promptForMenuSelection("Enter ID of user you are sending to (0 to cancel): ");
-            if (accountToSend == 0){
+            if (accountToSend == 0) {
                 break;
-            }
-            else {
-                    User userToSend = userService.getUserById(currentUser, accountToSend);
-                    if (userToSend == null){
-                        System.out.println("User does not exist");
-                        break;
-                    }
-                    else if (Objects.equals(userToSend.getId(), currentUser.getUser().getId())){
-                        System.out.println("You can't send money to yourself");
-                        break;
-                    }
-                    System.out.println("How much money do you want to send to ID: " + userToSend.getId()
-                            + " User: " + userToSend.getUsername());
-                    BigDecimal amountToSend = consoleService.promptForBigDecimal("Enter amount: ");
-                    int currentUserId = Math.toIntExact(currentUser.getUser().getId());
-                    transfer.setAccountFrom(userService.getAccountById(currentUser, currentUserId).getAccountId());
-                    transfer.setAccountTo(userService.getAccountById(currentUser, accountToSend).getAccountId());
-                    transfer.setAmount(amountToSend);
-                    boolean didItWork = transferService.sendTEbucks(currentUser, currentUserId, accountToSend, transfer);
-                System.out.println(didItWork);
+            } else {
+                User userToSend = userService.getUserById(currentUser, accountToSend);
+                if (userToSend == null) {
+                    System.out.println("User does not exist");
                     break;
+                } else if (Objects.equals(userToSend.getId(), currentUser.getUser().getId())) {
+                    System.out.println("You can't send money to yourself");
+                    break;
+                }
+                System.out.println("How much money do you want to send to ID: " + userToSend.getId()
+                        + " User: " + userToSend.getUsername());
+                BigDecimal amountToSend = consoleService.promptForBigDecimal("Enter amount: ");
+                int currentUserId = Math.toIntExact(currentUser.getUser().getId());
+                int accountFrom = Math.toIntExact(userService.getAccountById(currentUser, currentUserId).getAccountId());
+                int accountTo = Math.toIntExact(userService.getAccountById(currentUser, accountToSend).getAccountId());
+                transfer.setAccountFrom(accountFrom);
+                transfer.setAccountTo(accountTo);
+                transfer.setAmount(amountToSend);
+                boolean didItWork = transferService.sendTEbucks(currentUser, accountFrom, accountTo, transfer);
+                if (didItWork == false){
+                    System.out.println("Not enough money");
+                }
+                break;
             }
         }
     }
