@@ -73,6 +73,16 @@ public JdbcAccountDao(DataSource dataSource) {
         throw new UsernameNotFoundException("Account ID " + accountId + " was not found.");
     }
 
+    @Override
+    public Account findAccountByAccountId(int accountId) {
+        String sql = "SELECT account_id, account.user_id, balance from account where account_id = ?;";
+        SqlRowSet rowSet = jdbcTemplate.queryForRowSet(sql, accountId);
+        if (rowSet.next()) {
+            return mapRowToAccount(rowSet);
+        }
+        throw new UsernameNotFoundException("Account ID " + accountId + " was not found.");
+    }
+
 
     private Account mapRowToAccount(SqlRowSet stupidDumbRowStuff){
         Account account = new Account();

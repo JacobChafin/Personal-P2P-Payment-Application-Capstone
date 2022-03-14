@@ -198,7 +198,7 @@ public class JdbcUserDao implements UserDao {
 
             return "Invalid User.  Select Valid User ID";
 
-        }if ((transferAmount.compareTo(getBalance(sendingFromUserId))) >= 0)
+        }if ((transferAmount.compareTo(getBalance(sendingFromUserId))) <= 0)
         {
             String sql = "INSERT INTO transfer (transfer_type_id, transfer_status_id, account_from, account_to, amount)"
                     + "VALUES 2,2,?,?,?";

@@ -40,6 +40,12 @@ private JdbcAccountDao accountDao;
         return null;
     }
 
+    @RequestMapping(path = "account/{accountid}", method = RequestMethod.GET)
+    public Account getAccount(@Valid @PathVariable int accountid) {
+            Account account = accountDao.findAccountByAccountId(accountid);
+            return account;
+        }
+
     @RequestMapping(path = "users/", method = RequestMethod.GET)
     public List<User> getUsers(){
         return userDao.findAll();

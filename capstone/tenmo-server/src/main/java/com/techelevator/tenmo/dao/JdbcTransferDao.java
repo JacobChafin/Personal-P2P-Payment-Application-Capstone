@@ -1,5 +1,6 @@
 package com.techelevator.tenmo.dao;
 
+import com.techelevator.tenmo.model.Account;
 import org.springframework.http.HttpStatus;
 import org.springframework.jdbc.core.JdbcTemplate;
 import com.techelevator.tenmo.model.Transfer;
@@ -16,6 +17,7 @@ import java.util.List;
 public class JdbcTransferDao implements TransferDao {
     private JdbcTemplate jdbcTemplate;
     UserDao userDao;
+    AccountDao accountDao;
 
     public JdbcTransferDao(DataSource dataSource) {
         this.jdbcTemplate = new JdbcTemplate(dataSource);
@@ -68,13 +70,17 @@ public class JdbcTransferDao implements TransferDao {
     }
 
     @Override
-    public boolean sendTEBucks(int userFrom, int userTo, Transfer transfer) {
+    public boolean sendTEBucks(int accountIdFrom, int accountIdTo, Transfer transfer) {
 
         boolean didItWork = false;
-//        if (userFrom == userTo) {
-//            return didItWork;
-//        }
-//        if ((transfer.getAmount().compareTo(userDao.getBalance(userFrom))) <= 0) {
+        if (accountIdFrom == accountIdTo) {
+            return didItWork;
+        }
+//        Account account = accountDao.findAccountByAccountId(accountIdFrom);
+//        int userIdFrom = account.getUserId();
+//        BigDecimal transferAmount = transfer.getAmount();
+//        BigDecimal balance = accountDao.getBalance(userIdFrom);
+//        if ((transferAmount.compareTo(balance)) <= 0) {
 
 
             String sql = "BEGIN; " +
@@ -93,9 +99,9 @@ public class JdbcTransferDao implements TransferDao {
                     transfer.getAccountTo(),
                     transfer.getAmount(),
                     transfer.getAmount(),
-                    userFrom,
+                    accountIdFrom,
                     transfer.getAmount(),
-                    userTo);
+                    accountIdTo);
             if (num == 1) {
                 didItWork = true;
             }
