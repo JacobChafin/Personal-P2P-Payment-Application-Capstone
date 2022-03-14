@@ -42,6 +42,23 @@ public class TransferService {
     }
 
 
+    public Transfer[] getListOfTransfers(AuthenticatedUser authenticatedUser) {
+        Transfer[] transfers = null;
+        try {
+            transfers = restTemplate.exchange(API_BASE_URL + "account/transfer",
+                    HttpMethod.GET,
+                    makeAuthEntity(authenticatedUser),
+                    Transfer[].class).getBody();
+//            transfers = response.getBody();
+        } catch (RestClientResponseException | ResourceAccessException e) {
+            BasicLogger.log(e.getMessage());
+        }
+        return transfers;
+    }
+
+
+
+
     public Transfer[] getTransfersFromUserId(AuthenticatedUser authenticatedUser) {
         Transfer[] transfers = null;
         try {

@@ -9,7 +9,9 @@ import java.util.List;
 public interface TransferDao {
     public Transfer getTransfersById(int transferId);
 
-    public List<Transfer> getListOfAllTransfers(int userId);
+    List<Transfer> getListOfAllTransfersByUserId(int userId);
+
+    public List<Transfer> getListOfAllTransfers();
 
     boolean sendTEBucks(int userFrom, int userTo, Transfer transfer);
 }
