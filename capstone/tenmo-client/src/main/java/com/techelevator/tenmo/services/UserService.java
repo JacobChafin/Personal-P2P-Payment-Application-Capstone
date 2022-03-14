@@ -66,8 +66,17 @@ public class UserService {
         } catch (RestClientResponseException | ResourceAccessException e) {
             BasicLogger.log(e.getMessage());
         }
-        String username = user.getUsername();
-        return username;
+
+        if (user == null){
+            return null;
+        }
+        else{
+            String username = user.getUsername();
+            return username;
+        }
+
+
+
     }
 
     public User getUserByAccountId(AuthenticatedUser authenticatedUser, int id){
