@@ -88,7 +88,7 @@ public class TransferService {
         return transfers;
     }
 
-    public boolean sendTEbucks(AuthenticatedUser authenticatedUser, int userFrom, int userTo, Transfer transfer) {
+    public boolean sendTEbucks(AuthenticatedUser authenticatedUser, int accountIdFrom, int accountIdTo, Transfer transfer) {
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
         headers.setBearerAuth(authenticatedUser.getToken());
@@ -96,7 +96,7 @@ public class TransferService {
 
         boolean didItWork = false;
         try {
-            restTemplate.exchange(API_BASE_URL + "transfer/" + userFrom + "/" + userTo,
+            restTemplate.exchange(API_BASE_URL + "transfer/" + accountIdFrom + "/" + accountIdTo,
                             HttpMethod.POST,
                             entity,
                             Boolean.class)

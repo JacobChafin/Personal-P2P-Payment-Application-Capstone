@@ -27,12 +27,12 @@ public class UserService {
         this.authToken = authToken;
     }
 
-    public BigDecimal getBalance(AuthenticatedUser authenticatedUser) {
+    public BigDecimal getBalance(AuthenticatedUser authenticatedUser, int userId) {
         BigDecimal balance = null;
 
         try {
             balance = restTemplate.exchange(
-                    API_BASE_URL + "balance/" + authenticatedUser.getUser().getId(),
+                    API_BASE_URL + "balance/" + userId,
                     HttpMethod.GET,
                     makeAuthEntity(authenticatedUser),
                     BigDecimal.class).getBody();

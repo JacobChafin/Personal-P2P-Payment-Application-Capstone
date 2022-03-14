@@ -14,7 +14,7 @@ public interface AccountDao {
     public BigDecimal withdrawalFromBalance(BigDecimal transferAmount, int userId);
     public String completeTransfer(int fromUserId, int toUserId, BigDecimal transferAmount);
 
-
+    Account findAccountByAccountId(int accountId);
 
 
 }

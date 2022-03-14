@@ -8,7 +8,9 @@ import com.techelevator.tenmo.services.UserService;
 
 import java.math.BigDecimal;
 import java.sql.SQLOutput;
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 import java.util.Objects;
 
 public class App {
@@ -21,6 +23,7 @@ public class App {
     private AuthenticatedUser currentUser;
     TransferService transferService = new TransferService();
     Account account;
+    List<Transfer> transferList = new ArrayList<>();
 
     public static void main(String[] args) {
         App app = new App();
@@ -103,7 +106,8 @@ public class App {
 
     private void viewCurrentBalance() {
 //        UserService userService = new UserService();
-        BigDecimal balance = userService.getBalance(currentUser);
+        int userId = Math.toIntExact(currentUser.getUser().getId());
+        BigDecimal balance = userService.getBalance(currentUser, userId);
         System.out.println("--------------------------------------------");
         System.out.println("Your balance is $" + balance);
         System.out.println("--------------------------------------------");
@@ -113,37 +117,16 @@ public class App {
 
     private void viewTransferHistory() {
         listTransfers();
-//        TransferService transferService = new TransferService();
-//        int id = Math.toIntExact(currentUser.getUser().getId());
+
         Transfer[] transfers = transferService.getTransfersFromUserId(currentUser);
-//        System.out.println("--------------------------------------------");
-//        System.out.println("Transfers ");
-//        System.out.println("ID      FROM/TO       Amount");
-//        for (Transfer transfer : transfers){
-//            int currentUserId = Math.toIntExact(currentUser.getUser().getId());
-//            if(transfer.getAccountFrom() == userService.getAccountById(currentUser, currentUserId).getAccountId()) {
-//                System.out.println(transfer.getTransferId()
-//                        + "      From: "
-//                        + currentUser.getUser().getUsername()
-//                        + "      Amount: "
-//                        + transfer.getAmount());
-//            }
-//            else {
-//                System.out.println(transfer.getTransferId()
-//                        +"         To: "
-//                       + transfer.getAccountTo()
-//                       +"Amount: "
-//                        + transfer.getAmount());
-//            }
-////            System.out.println("      To: "
-////                    +   userService.getUsernameByAccountId(currentUser, transfer.getAccountTo()));
-//        }
-        boolean breakLoop = true;
         int choice = -1;
         while (choice != 0) {
             if (transfers == null) {
                 System.out.print("don't exist lol find friends");
-               break;
+                break;
+            }
+            if (transferList.size() == 0){
+                break;
             }
             for (Transfer transfer : transfers) {
                 int accountIdFrom = transfer.getAccountFrom();
@@ -153,33 +136,29 @@ public class App {
                 choice = consoleService.promptForMenuSelection("Please enter transfer ID to view details (0 to cancel): ");
                 Transfer transferToGet = transferService.getTransferById(currentUser, choice);
                 int transferId = transferToGet.getTransferId();
-                if (choice == 0){
+                if (choice == 0) {
                     break;
-                }
-                else if (transferService.getTransferById(currentUser, transferId).getAmount() == null){
+                } else if (transferService.getTransferById(currentUser, transferId).getAmount() == null) {
                     System.out.println("Transfer doesn't exist");
-                }
-                else{
+                } else {
                     Transfer transferToDisplay = transferService.getTransferById(currentUser, choice);
-                    if (transferToDisplay == null){
+                    if (transferToDisplay == null) {
                         System.out.println("Transfer does not exist");
-                    }
-                    else {
+                    } else {
                         System.out.println("------------");
-                        System.out.println("ID: "+  transferToDisplay.getTransferId());
-                        System.out.println("From: "+  userService.getUsernameByAccountId(currentUser, transferToDisplay.getAccountFrom()));
+                        System.out.println("ID: " + transferToDisplay.getTransferId());
+                        System.out.println("From: " + userService.getUsernameByAccountId(currentUser, transferToDisplay.getAccountFrom()));
                         System.out.println("To: " + userService.getUsernameByAccountId(currentUser, transferToDisplay.getAccountTo()));
                         System.out.println("Type: Send");
 //                                +  transferToDisplay.getTransferType());
                         System.out.println("Status: Approved");
 //                                +  transferToDisplay.getTransferId());
-                        System.out.println("Amount: "+  transferToDisplay.getAmount());
+                        System.out.println("Amount: " + transferToDisplay.getAmount());
                         break;
 
                         //TODO add type and status instead of hard coding what it is
                     }
                 }
-//                breakLoop = false;
             }
         }
 
@@ -212,13 +191,13 @@ public class App {
             System.out.println(user.getId() + "     :     " + user.getUsername());
         }
         System.out.println("-------------------------------------------");
-        int accountToSend = 0;
+        int userIdToSend = 0;
         while (true) {
-            accountToSend = consoleService.promptForMenuSelection("Enter ID of user you are sending to (0 to cancel): ");
-            if (accountToSend == 0) {
+            userIdToSend = consoleService.promptForMenuSelection("Enter ID of user you are sending to (0 to cancel): ");
+            if (userIdToSend == 0) {
                 break;
             } else {
-                User userToSend = userService.getUserById(currentUser, accountToSend);
+                User userToSend = userService.getUserById(currentUser, userIdToSend);
                 if (userToSend == null) {
                     System.out.println("User does not exist");
                     break;
@@ -231,14 +210,20 @@ public class App {
                 BigDecimal amountToSend = consoleService.promptForBigDecimal("Enter amount: ");
                 int currentUserId = Math.toIntExact(currentUser.getUser().getId());
                 int accountFrom = Math.toIntExact(userService.getAccountById(currentUser, currentUserId).getAccountId());
-                int accountTo = Math.toIntExact(userService.getAccountById(currentUser, accountToSend).getAccountId());
+                int accountTo = Math.toIntExact(userService.getAccountById(currentUser, userIdToSend).getAccountId());
 
                 transfer.setAccountFrom(accountFrom);
                 transfer.setAccountTo(accountTo);
                 transfer.setAmount(amountToSend);
-                boolean didItWork = transferService.sendTEbucks(currentUser, accountFrom, accountTo, transfer);
-                if (!didItWork){
-                    System.out.println("Not enough money");
+
+                boolean didItWork = false;
+
+                if (userService.getBalance(currentUser, currentUserId).compareTo(amountToSend) < 0) {
+                    System.out.println("You can't send more money than you have");
+                } else {
+                    didItWork = transferService.sendTEbucks(currentUser, accountFrom, accountTo, transfer);
+                    System.out.println("You sent $" + amountToSend + " to " + userService.getUsernameByAccountId(currentUser, accountTo));
+                    System.out.println("You now have $" + userService.getBalance(currentUser, currentUserId));
                 }
                 break;
             }
@@ -264,32 +249,52 @@ public class App {
         System.out.println("-------------------------------------------");
     }
 
-    private void listTransfers(){
+    private void listTransfers() {
         Transfer[] transfers = transferService.getListOfTransfers(currentUser);
-        System.out.println("--------------------------------------------");
-        System.out.println("Transfers ");
-        System.out.println("ID      FROM/TO           Amount");
-        if (transfers.length == 0){
+        List<Transfer> transferList = new ArrayList<>();
+        if (transfers.length == 0) {
             System.out.println("No transfers listed");
-        }
-        else {
-            for (int i = 0; i < transfers.length; i++) {
+        } else {
+            System.out.println("--------------------------------------------");
+            System.out.println("Transfers ");
+            System.out.println("ID      FROM/TO           Amount");
+
+            for (Transfer transfer : transfers) {
                 int currentUserId = Math.toIntExact(currentUser.getUser().getId());
-                if (transfers[i].getAccountFrom() == userService.getAccountById(currentUser, currentUserId).getAccountId()) {
-                    System.out.println(transfers[i].getTransferId()
-                            + "      To: "
-                            + userService.getUsernameByAccountId(currentUser, transfers[i].getAccountTo())
-                            + "      Amount: $"
-                            + transfers[i].getAmount());
-                } else if (transfers[i].getAccountTo() == userService.getAccountById(currentUser, currentUserId).getAccountId()) {
-                    System.out.println(transfers[i].getTransferId()
-                            + "      From: "
-                            + userService.getUsernameByAccountId(currentUser, transfers[i].getAccountFrom())
-                            + "      Amount: $"
-                            + transfers[i].getAmount());
+                if (transfer.getAccountFrom() == userService.getAccountById(currentUser, currentUserId).getAccountId()) {
+                    transferList.add(transfer);
+                } else if (transfer.getAccountTo() == userService.getAccountById(currentUser, currentUserId).getAccountId()) {
+
+                    transferList.add(transfer);
                 }
             }
+
+            if (transferList.size() == 0) {
+                System.out.println("No transfers listed");
+            } else {
+                for (Transfer transfer : transferList) {
+                    int currentUserId = Math.toIntExact(currentUser.getUser().getId());
+
+                    if (transfer.getAccountFrom() == userService.getAccountById(currentUser, currentUserId).getAccountId()) {
+                        System.out.println(transfer.getTransferId()
+                                + "      To: "
+                                + userService.getUsernameByAccountId(currentUser, transfer.getAccountTo())
+                                + "      Amount: $"
+                                + transfer.getAmount());
+                    } else if (transfer.getAccountTo() == userService.getAccountById(currentUser, currentUserId).getAccountId()) {
+                        System.out.println(transfer.getTransferId()
+                                + "      From: "
+                                + userService.getUsernameByAccountId(currentUser, transfer.getAccountFrom())
+                                + "      Amount: $"
+                                + transfer.getAmount());
+
+
+                    }
+
+                }
+
+            }
+
         }
     }
-
 }
